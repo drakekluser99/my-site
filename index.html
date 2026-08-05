@@ -216,6 +216,50 @@
   .box a.open{ font-size:0.78rem; color:var(--phosphor); }
   .box a.open::after{ content:' →'; }
 
+  /* case study expand/collapse */
+  .case-toggle{
+    display:block; margin-top:14px; background:none; border:none; padding:0;
+    font-family:'IBM Plex Mono'; font-size:0.74rem; color:var(--cyan); cursor:pointer;
+  }
+  .case-toggle:hover{ text-decoration:underline; }
+  .case-detail{
+    max-height:0; overflow:hidden; opacity:0;
+    transition:max-height .35s ease, opacity .3s ease, margin-top .3s ease;
+  }
+  .case-detail.open{ max-height:600px; opacity:1; margin-top:14px; }
+  .case-row{ padding-top:10px; border-top:1px dashed var(--line); margin-top:10px; }
+  .case-row:first-child{ border-top:none; margin-top:0; padding-top:0; }
+  .case-row .k{ display:block; color:var(--cyan); font-size:0.7rem; text-transform:uppercase; letter-spacing:0.05em; margin-bottom:4px; }
+  .case-row span:last-child{ color:var(--muted); font-size:0.82rem; line-height:1.5; }
+
+  /* devlog */
+  .devlog-list{ display:flex; flex-direction:column; gap:2px; }
+  .devlog-entry{ border:1px solid var(--line); background:var(--bg-panel-2); }
+  .devlog-entry + .devlog-entry{ margin-top:10px; }
+  .devlog-toggle{
+    width:100%; display:flex; align-items:center; gap:16px;
+    background:none; border:none; padding:16px 20px; cursor:pointer; text-align:left;
+    font-family:'IBM Plex Mono';
+  }
+  .devlog-date{ color:var(--muted); font-size:0.75rem; flex-shrink:0; }
+  .devlog-title{ color:var(--text); font-size:0.92rem; flex:1; }
+  .devlog-arrow{ color:var(--phosphor); font-size:1rem; flex-shrink:0; transition:transform .2s ease; }
+  .devlog-entry.open .devlog-arrow{ transform:rotate(45deg); }
+  .devlog-body{
+    max-height:0; overflow:hidden; opacity:0; padding:0 20px;
+    transition:max-height .35s ease, opacity .3s ease, padding .3s ease;
+  }
+  .devlog-entry.open .devlog-body{ max-height:400px; opacity:1; padding:0 20px 20px; }
+  .devlog-body p{ color:var(--muted); font-size:0.85rem; line-height:1.6; }
+
+  /* now.txt */
+  .now-box{
+    background:var(--bg-panel-2); border:1px solid var(--line); padding:22px 24px;
+    font-family:'IBM Plex Mono'; font-size:0.88rem;
+  }
+  .now-line{ color:var(--text); padding:7px 0; }
+  .now-line strong{ color:var(--phosphor); font-weight:600; }
+
   /* log-style experience */
   .logline{ display:grid; grid-template-columns:120px 1fr; gap:16px; padding:14px 0; border-bottom:1px dashed var(--line); font-size:0.85rem; }
   .logline:last-child{ border-bottom:none; }
@@ -393,6 +437,8 @@
       <a href="#experience">esperienza</a>
       <a href="#skills">stack</a>
       <a href="#setup">setup</a>
+      <a href="#devlog">devlog</a>
+      <a href="#now">now</a>
       <a href="#contact">contatti</a>
     </div>
     <button class="hamburger" id="hamburgerBtn" aria-label="Apri menu">
@@ -405,6 +451,8 @@
     <a href="#experience">esperienza</a>
     <a href="#skills">stack</a>
     <a href="#setup">setup</a>
+    <a href="#devlog">devlog</a>
+    <a href="#now">now</a>
     <a href="#contact">contatti</a>
   </div>
 
@@ -448,6 +496,12 @@
         <p>Realizzato da zero: struttura, contenuti e messa online del sito aziendale.</p>
         <div class="stackrow"><span>WordPress</span><span>HTML/CSS</span><span>SEO base</span></div>
         <a class="open" href="https://bluebeegroup.com" target="_blank" rel="noopener">apri progetto</a>
+        <button class="case-toggle">+ approfondisci</button>
+        <div class="case-detail">
+          <div class="case-row"><span class="k">sfida</span><span>L'azienda non aveva ancora una presenza online: serviva un sito che comunicasse professionalità fin dal primo impatto.</span></div>
+          <div class="case-row"><span class="k">cosa ho fatto</span><span>Progettato la struttura delle pagine, scelto e configurato il tema WordPress, curato testi e organizzazione dei contenuti, impostato le basi SEO (titoli, meta description, heading).</span></div>
+          <div class="case-row"><span class="k">risultato</span><span>Il sito è online ed è oggi il punto di riferimento digitale dell'azienda, usato quotidianamente per comunicare con clienti e partner.</span></div>
+        </div>
       </div>
 
       <div class="box">
@@ -456,6 +510,12 @@
         <p>Costruito interamente da zero su WordPress, dalla struttura al contenuto finale.</p>
         <div class="stackrow"><span>WordPress</span><span>HTML/CSS</span></div>
         <a class="open" href="https://easy-training.it" target="_blank" rel="noopener">apri progetto</a>
+        <button class="case-toggle">+ approfondisci</button>
+        <div class="case-detail">
+          <div class="case-row"><span class="k">sfida</span><span>Creare da zero un sito chiaro e facile da navigare, pensato anche per un pubblico non esperto di tecnologia.</span></div>
+          <div class="case-row"><span class="k">cosa ho fatto</span><span>Definito l'architettura delle pagine, personalizzato il tema WordPress, curato l'impaginazione dei contenuti e la coerenza visiva tra desktop e mobile.</span></div>
+          <div class="case-row"><span class="k">risultato</span><span>Sito pubblicato e funzionante, costruito per essere facilmente aggiornabile in autonomia anche in futuro.</span></div>
+        </div>
       </div>
 
       <div class="box">
@@ -464,6 +524,12 @@
         <p>Miglioramento di varie sezioni del sito esistente: contenuti, layout e ottimizzazioni.</p>
         <div class="stackrow"><span>WordPress</span><span>UX tweaks</span></div>
         <a class="open" href="https://mastergeneration.it" target="_blank" rel="noopener">apri progetto</a>
+        <button class="case-toggle">+ approfondisci</button>
+        <div class="case-detail">
+          <div class="case-row"><span class="k">sfida</span><span>Il sito esisteva già, ma alcune sezioni non comunicavano in modo chiaro i contenuti del master.</span></div>
+          <div class="case-row"><span class="k">cosa ho fatto</span><span>Analizzato le pagine esistenti, rivisto layout e testi delle sezioni chiave, migliorato leggibilità e coerenza visiva con il resto del sito.</span></div>
+          <div class="case-row"><span class="k">risultato</span><span>Sezioni più chiare e coerenti, con un'esperienza di navigazione migliore per chi cerca informazioni sul master.</span></div>
+        </div>
       </div>
 
     </div>
@@ -572,6 +638,48 @@
     </div>
   </section>
 
+  <section class="section" id="devlog">
+    <div class="cmd">ls -la ./devlog</div>
+    <h2 class="vt">devlog/</h2>
+    <div class="devlog-list">
+
+      <div class="devlog-entry">
+        <button class="devlog-toggle">
+          <span class="devlog-date">2026.08</span>
+          <span class="devlog-title">Com'è nato questo sito</span>
+          <span class="devlog-arrow">+</span>
+        </button>
+        <div class="devlog-body">
+          <p>Questo portfolio è nato come esperimento: volevo un sito che raccontasse chi sono senza i soliti template già visti mille volte. L'ho costruito passo per passo, decidendo io ogni dettaglio — dallo stile terminale/cyberpunk alle animazioni del cursore — e imparando nel frattempo come ragiona un sito web dietro le quinte. È anche il primo progetto che ho pubblicato io stesso, dal repository GitHub al deploy su Vercel.</p>
+        </div>
+      </div>
+
+      <div class="devlog-entry">
+        <button class="devlog-toggle">
+          <span class="devlog-date">2026.08</span>
+          <span class="devlog-title">Perché ho deciso di imparare a programmare</span>
+          <span class="devlog-arrow">+</span>
+        </button>
+        <div class="devlog-body">
+          <p>Ho una laurea in filosofia, ma i computer mi hanno sempre affascinato — il mio PC me lo sono montato io, pezzo per pezzo. Lavorando nel marketing digitale mi sono trovato spesso a un passo dal codice: modificare un sito WordPress, sistemare un layout, capire perché qualcosa si rompeva. A un certo punto ho deciso di smettere di fermarmi un passo prima, e ho iniziato a studiare HTML, CSS e JavaScript sul serio.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="section" id="now">
+    <div class="cmd">cat ./now.txt</div>
+    <h2 class="vt">now.txt</h2>
+    <div class="now-box">
+      <div class="comment" style="margin-bottom:14px;">// ultimo aggiornamento: <span id="nowDate"></span></div>
+      <div class="now-line">&gt; sto studiando: <strong>JavaScript</strong>, dopo aver completato le basi di HTML e CSS</div>
+      <div class="now-line">&gt; prossimo obiettivo: certificazione <strong>Next.js</strong></div>
+      <div class="now-line">&gt; progetto personale: questo sito stesso, che aggiorno man mano che imparo</div>
+      <div class="now-line">&gt; al lavoro: comunicazione digitale e siti WordPress per Blue Bee Group</div>
+    </div>
+  </section>
+
   <section class="section" id="contact" style="border-bottom:none;">
     <div class="cmd">./contattami</div>
     <h2 class="vt">contatti/</h2>
@@ -606,6 +714,32 @@
 
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  // --- now.txt: auto-updating "last updated" month/year ---
+  const nowDateEl = document.getElementById('nowDate');
+  if (nowDateEl) {
+    const d = new Date();
+    nowDateEl.textContent = d.toLocaleDateString('it-IT', { month: 'long', year: 'numeric' });
+  }
+
+  // --- project case study toggles ---
+  document.querySelectorAll('.case-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const detail = btn.nextElementSibling;
+      const open = detail.classList.toggle('open');
+      btn.textContent = open ? '- chiudi' : '+ approfondisci';
+    });
+  });
+
+  // --- devlog entry toggles ---
+  document.querySelectorAll('.devlog-toggle').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const entry = btn.closest('.devlog-entry');
+      const arrow = btn.querySelector('.devlog-arrow');
+      const open = entry.classList.toggle('open');
+      arrow.textContent = open ? '×' : '+';
+    });
+  });
 
   // --- mobile hamburger menu ---
   const hamburgerBtn = document.getElementById('hamburgerBtn');
