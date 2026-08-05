@@ -245,6 +245,41 @@
   .setup-line .v{ color:var(--text); }
   .setup-desc{ color:var(--muted); font-size:0.8rem; padding-left:2px; }
 
+  /* two-column split: main content + side readout panel */
+  .split-panel{ display:grid; grid-template-columns:1fr 280px; gap:20px; align-items:stretch; }
+  .split-panel > .catout, .split-panel > .setup-list, .split-panel > .contact-box{ margin:0; }
+  .side-readout{
+    background:var(--bg-panel-2); border:1px solid var(--line); padding:20px;
+    display:flex; flex-direction:column; gap:10px; font-family:'IBM Plex Mono'; font-size:0.78rem;
+  }
+  .readout-label{ color:var(--cyan); font-size:0.72rem; text-transform:uppercase; letter-spacing:0.06em; margin-bottom:4px; }
+  .readout-line{ color:var(--muted); line-height:1.5; }
+  .status-dot{
+    display:inline-block; width:7px; height:7px; border-radius:50%;
+    background:var(--phosphor); margin-right:7px; box-shadow:0 0 6px var(--phosphor);
+    animation:pulse-dot 1.8s ease-in-out infinite;
+  }
+  @keyframes pulse-dot{ 0%,100%{ opacity:1; } 50%{ opacity:0.4; } }
+
+  .readout-ring{ position:relative; width:120px; height:120px; margin:4px auto 10px; }
+  .readout-ring svg{ width:100%; height:100%; transform:rotate(-90deg); }
+  .readout-ring .ring-bg{ fill:none; stroke:var(--line); stroke-width:8; }
+  .readout-ring .ring-fg{
+    fill:none; stroke:var(--phosphor); stroke-width:8; stroke-linecap:round;
+    stroke-dasharray:326.7; stroke-dashoffset:228.7; /* ~30% */
+    filter:drop-shadow(0 0 4px rgba(57,255,122,0.7));
+  }
+  .ring-text{
+    position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+    color:var(--muted); font-size:0.68rem; text-align:center;
+  }
+  .ring-text span{ color:var(--phosphor); font-size:1.3rem; font-weight:600; }
+
+  @media(max-width:900px){
+    .split-panel{ grid-template-columns:1fr; }
+    .readout-ring{ margin:4px auto 10px; }
+  }
+
   /* contact */
   .contact-box{ border:1px solid var(--line); background:var(--bg-panel-2); padding:28px; }
   .contact-box p{ color:var(--muted); font-size:0.88rem; margin-bottom:22px; max-width:480px; }
@@ -289,6 +324,58 @@
   }
   .hud-ring--active::before{ border-color:var(--magenta); }
   .footer-stamp{ width:84px; height:84px; display:block; margin:0 auto 12px; border-radius:10px; opacity:1; border:1px solid var(--line); }
+
+  /* ============ MOBILE OPTIMIZATION PASS ============ */
+  html{ overflow-x:hidden; }
+  body{ overflow-x:hidden; }
+
+  @media(max-width:640px){
+    /* titlebar: hide path text, shrink logo so brandmark+dots+hamburger always fit */
+    .titlebar .path{ display:none; }
+    .titlebar{ padding:6px 10px; gap:8px; }
+    .brandmark{ width:40px; height:40px; padding:3px; }
+    .titlebar .dots{ gap:5px; }
+    .titlebar .dot{ width:8px; height:8px; }
+
+    /* tighter section padding on small screens */
+    .section{ padding:40px 0; }
+    .hero{ padding:16px 0 40px; }
+
+    /* project cards: single comfortable column, no forced 300px min that could overflow */
+    .grid-projects{ grid-template-columns:1fr; gap:14px; }
+
+    /* experience log: stack timestamp above content instead of side-by-side */
+    .logline{ grid-template-columns:1fr; gap:4px; padding:12px 0; }
+    .logline .ts{ font-size:0.7rem; }
+
+    /* setup rows: let label sit above value instead of forcing min-width column */
+    .setup-line .k{ display:block; min-width:0; margin-bottom:2px; }
+
+    /* headline: slightly tighter line-height so it doesn't dominate the viewport */
+    h1.glitch{ font-size:clamp(2.1rem, 9vw, 2.8rem); }
+    .hero p.sub{ max-width:100%; font-size:0.88rem; }
+
+    /* readout panels already stack via .split-panel rule at 900px; add breathing room */
+    .side-readout{ padding:16px; }
+
+    /* buttons: full-width tap targets, easier thumb reach */
+    .cta-row{ flex-direction:column; align-items:stretch; }
+    .cta-row .btn{ text-align:center; justify-content:center; }
+    .contact-links{ flex-direction:column; align-items:stretch; }
+    .contact-links .btn{ text-align:center; }
+
+    /* photo frame: reasonable cap on small screens */
+    .hero-photo{ max-width:180px; margin:0 auto; }
+
+    /* footer stamp spacing */
+    footer{ padding:20px 16px; }
+  }
+
+  @media(max-width:400px){
+    h1.glitch{ font-size:clamp(1.9rem, 10vw, 2.4rem); }
+    .wrap{ padding:0 14px; }
+    .cmd{ font-size:0.75rem; }
+  }
 </style>
 </head>
 <body>
@@ -412,7 +499,8 @@
   <section class="section" id="skills">
     <div class="cmd">cat ./stack.txt</div>
     <h2 class="vt">stack.txt</h2>
-    <pre class="catout"><span class="comment"># attuale</span>
+    <div class="split-panel">
+      <pre class="catout"><span class="comment"># attuale</span>
 <span class="k">wordpress</span>   <span class="v">■■■■■■■■□□</span>
 <span class="k">html/css</span>    <span class="v">■■■■■■□□□□</span>
 <span class="k">hardware/pc</span> <span class="v">■■■■■■■□□□</span>
@@ -423,42 +511,63 @@
 <span class="k">javascript</span>  <span class="v">[in corso]</span>
 <span class="k">next.js</span>     <span class="v">[in corso]</span>
 <span class="k">vercel</span>      <span class="v">[in corso]</span></pre>
+      <div class="side-readout">
+        <div class="readout-label">// stato</div>
+        <div class="readout-ring">
+          <svg viewBox="0 0 120 120">
+            <circle cx="60" cy="60" r="52" class="ring-bg"></circle>
+            <circle cx="60" cy="60" r="52" class="ring-fg"></circle>
+          </svg>
+          <div class="ring-text"><span>30%</span>roadmap</div>
+        </div>
+        <div class="readout-line">&gt; base solida: wordpress + html/css</div>
+        <div class="readout-line">&gt; prossimo obiettivo: javascript</div>
+        <div class="readout-line">&gt; direzione: full front-end dev</div>
+      </div>
+    </div>
   </section>
 
   <section class="section" id="setup">
     <div class="cmd">cat ./setup.txt</div>
     <h2 class="vt">setup.txt</h2>
-    <div class="setup-list">
-      <div class="comment" style="margin-bottom:16px;"># il mio pc, montato a mano — pezzo per pezzo</div>
+    <div class="split-panel">
+      <div class="setup-list">
+        <div class="comment" style="margin-bottom:16px;"># il mio pc, montato a mano — pezzo per pezzo</div>
 
-      <div class="setup-row">
-        <div class="setup-line"><span class="k">cpu</span><span class="v">AMD Ryzen 5 5600X</span></div>
-        <div class="setup-desc"># il processore: esegue tutti i calcoli, è il "cervello" del pc</div>
+        <div class="setup-row">
+          <div class="setup-line"><span class="k">cpu</span><span class="v">AMD Ryzen 5 5600X</span></div>
+          <div class="setup-desc"># il processore: esegue tutti i calcoli, è il "cervello" del pc</div>
+        </div>
+
+        <div class="setup-row">
+          <div class="setup-line"><span class="k">gpu</span><span class="v">AMD Radeon RX 6650 XT — QICK, custom tri-ventola</span></div>
+          <div class="setup-desc"># la scheda video: gestisce grafica e immagini, utile anche nel lavoro con siti e contenuti visivi</div>
+        </div>
+
+        <div class="setup-row">
+          <div class="setup-line"><span class="k">ram</span><span class="v">Kingston Fury 3600MHz — 16GB DDR4</span></div>
+          <div class="setup-desc"># la memoria temporanea: più ce n'è, più programmi puoi tenere aperti senza rallentamenti</div>
+        </div>
+
+        <div class="setup-row">
+          <div class="setup-line"><span class="k">storage</span><span class="v">SK Hynix 1TB NVMe</span></div>
+          <div class="setup-desc"># il disco dove sono salvati sistema, file e programmi — NVMe è il tipo più veloce oggi in commercio</div>
+        </div>
+
+        <div class="setup-row">
+          <div class="setup-line"><span class="k">motherboard</span><span class="v">ASUS TUF B550M-Plus</span></div>
+          <div class="setup-desc"># la scheda madre: collega e fa comunicare tra loro tutti gli altri componenti</div>
+        </div>
+
+        <div class="setup-row">
+          <div class="setup-line"><span class="k">psu</span><span class="v">Sharkoon Gold — 650W</span></div>
+          <div class="setup-desc"># l'alimentatore: trasforma la corrente di casa in energia stabile e sicura per ogni componente</div>
+        </div>
       </div>
-
-      <div class="setup-row">
-        <div class="setup-line"><span class="k">gpu</span><span class="v">AMD Radeon RX 6650 XT — QICK, custom tri-ventola</span></div>
-        <div class="setup-desc"># la scheda video: gestisce grafica e immagini, utile anche nel lavoro con siti e contenuti visivi</div>
-      </div>
-
-      <div class="setup-row">
-        <div class="setup-line"><span class="k">ram</span><span class="v">Kingston Fury 3600MHz — 16GB DDR4</span></div>
-        <div class="setup-desc"># la memoria temporanea: più ce n'è, più programmi puoi tenere aperti senza rallentamenti</div>
-      </div>
-
-      <div class="setup-row">
-        <div class="setup-line"><span class="k">storage</span><span class="v">SK Hynix 1TB NVMe</span></div>
-        <div class="setup-desc"># il disco dove sono salvati sistema, file e programmi — NVMe è il tipo più veloce oggi in commercio</div>
-      </div>
-
-      <div class="setup-row">
-        <div class="setup-line"><span class="k">motherboard</span><span class="v">ASUS TUF B550M-Plus</span></div>
-        <div class="setup-desc"># la scheda madre: collega e fa comunicare tra loro tutti gli altri componenti</div>
-      </div>
-
-      <div class="setup-row">
-        <div class="setup-line"><span class="k">psu</span><span class="v">Sharkoon Gold — 650W</span></div>
-        <div class="setup-desc"># l'alimentatore: trasforma la corrente di casa in energia stabile e sicura per ogni componente</div>
+      <div class="side-readout">
+        <div class="readout-label">// nota</div>
+        <div class="readout-line" style="margin-bottom:14px;">Montarlo pezzo per pezzo mi ha insegnato più cose pratiche di qualsiasi corso: capire come comunicano i componenti, risolvere problemi da solo, non avere paura di aprire la "scatola nera".</div>
+        <div class="readout-line">La stessa curiosità che oggi metto nell'imparare a programmare.</div>
       </div>
     </div>
   </section>
@@ -466,13 +575,21 @@
   <section class="section" id="contact" style="border-bottom:none;">
     <div class="cmd">./contattami</div>
     <h2 class="vt">contatti/</h2>
-    <div class="contact-box">
-      <p>Sempre curioso di sentire nuove idee o sfide tecniche interessanti. Rispondo entro 24h.</p>
-      <div class="contact-links">
-        <a href="mailto:y.copparini.bluebee@gmail.com" class="btn">y.copparini.bluebee@gmail.com</a>
-        <a href="https://github.com/drakekluser99" target="_blank" rel="noopener" class="btn btn-alt">github (personale)</a>
-        <a href="https://github.com/ycopparinibluebee" target="_blank" rel="noopener" class="btn btn-alt">github (bluebee)</a>
-        <a href="https://www.linkedin.com/in/yuri-copparini/" target="_blank" rel="noopener" class="btn btn-alt">linkedin</a>
+    <div class="split-panel">
+      <div class="contact-box">
+        <p>Sempre curioso di sentire nuove idee o sfide tecniche interessanti. Rispondo entro 24h.</p>
+        <div class="contact-links">
+          <a href="mailto:y.copparini.bluebee@gmail.com" class="btn">y.copparini.bluebee@gmail.com</a>
+          <a href="https://github.com/drakekluser99" target="_blank" rel="noopener" class="btn btn-alt">github (personale)</a>
+          <a href="https://github.com/ycopparinibluebee" target="_blank" rel="noopener" class="btn btn-alt">github (bluebee)</a>
+          <a href="https://www.linkedin.com/in/yuri-copparini/" target="_blank" rel="noopener" class="btn btn-alt">linkedin</a>
+        </div>
+      </div>
+      <div class="side-readout">
+        <div class="readout-label">// status</div>
+        <div class="readout-line"><span class="status-dot"></span>aperto a nuove opportunità</div>
+        <div class="readout-line">&gt; risposta media: entro 24h</div>
+        <div class="readout-line">&gt; fuso orario: Europe/Rome (GMT+1)</div>
       </div>
     </div>
   </section>
