@@ -1019,7 +1019,7 @@ function HomeContent() {
                       {t('sc6-title')}
                     </h3>
                     <p>
-                      Sito per copywriter freelance, con effetto scroll dinamico che cambia colore.
+                      Copywriter freelance — riscritture prima/dopo e la stessa frase in tre toni di voce.
                     </p>
                     <span className={styles['showcase-open']}>
                       {t('showcase-open')}

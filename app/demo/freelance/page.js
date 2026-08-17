@@ -1,78 +1,30 @@
-'use client';
-
-import { useEffect, useRef } from 'react';
 import DemoShell from '../_components/DemoShell';
 import Reveal from '../_components/Reveal';
+import Rewrites from './Rewrites';
+import ToneSwitcher from './ToneSwitcher';
+import { steps, services, quotes } from './content';
 import styles from './page.module.css';
 
+export const metadata = {
+  title: 'Marta Ferri — Copywriter freelance, Ancona',
+};
+
 const navLinks = [
-  { href: '#servizi', label: 'Servizi' },
-  { href: '#processo', label: 'Come lavoro' },
-  { href: '#contatti', label: 'Contatti' },
+  { href: '#lavori', label: 'Prima / dopo' },
+  { href: '#voce', label: 'Tono di voce' },
+  { href: '#come', label: 'Come lavoro' },
+  { href: '#tariffe', label: 'Tariffe' },
 ];
 
 const cta = { href: '#contatti', label: 'Scrivimi' };
 
 export default function FreelancePage() {
-  const rootRef = useRef(null);
-  const sectionRef = useRef(null);
-  const listRef = useRef(null);
-
-  useEffect(() => {
-    const START_HUE = 260;
-    const END_HUE = 20;
-
-    function onScroll() {
-      const root = rootRef.current;
-      const section = sectionRef.current;
-      const list = listRef.current;
-      if (!root || !section || !list) return;
-
-      const items = Array.from(list.children);
-      const viewportCenter = window.innerHeight / 2;
-      let closest = null;
-      let closestDist = Infinity;
-
-      items.forEach((li) => {
-        const rect = li.getBoundingClientRect();
-        const itemCenter = rect.top + rect.height / 2;
-        const dist = Math.abs(itemCenter - viewportCenter);
-        li.classList.toggle(styles.active, dist < rect.height * 1.4);
-        if (dist < closestDist) {
-          closestDist = dist;
-          closest = li;
-        }
-      });
-
-      // safety net: always keep at least the nearest item visible
-      if (closest && !items.some((li) => li.classList.contains(styles.active))) {
-        closest.classList.add(styles.active);
-      }
-
-      // drive the hue across the section's full scroll range (viewport-enter to viewport-exit)
-      const secRect = section.getBoundingClientRect();
-      const totalRange = secRect.height + window.innerHeight;
-      const scrolled = window.innerHeight - secRect.top;
-      const progress = Math.min(1, Math.max(0, scrolled / totalRange));
-      const hue = START_HUE + (END_HUE - START_HUE) * progress;
-
-      // scoped to this page's own wrapper, not the global document root —
-      // keeps the effect self-contained now that this lives inside a
-      // multi-page app instead of a single standalone HTML file.
-      root.style.setProperty('--hue', hue.toFixed(1));
-      root.style.setProperty('--chroma', (0.02 + progress * 0.16).toFixed(3));
-    }
-
-    window.addEventListener('scroll', onScroll, { passive: true });
-    onScroll();
-    return () => window.removeEventListener('scroll', onScroll);
-  }, []);
-
   return (
-    <div ref={rootRef} className={styles.pageRoot}>
+    <div className={styles.pageRoot}>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link
-        href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400;1,6..72,500&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet"
       />
       <DemoShell
@@ -83,114 +35,167 @@ export default function FreelancePage() {
         }
         navLinks={navLinks}
         cta={cta}
-        footerText="marta.ferri, copywriter — sito dimostrativo"
+        footerText="marta.ferri, copywriter · Ancona — sito dimostrativo"
       >
+        {/* ---------------------------------------------------------- hero */}
         <section className={styles.hero}>
-          <div className={styles.heroGlow}></div>
           <div className={`${styles.wrap} ${styles.heroInner}`}>
-            <div className={styles.eyebrow}>Copywriter freelance</div>
-            <h1>
-              Scrivo testi che <span className={styles.grad}>fanno capire, non solo leggere.</span>
+            <div className={styles.eyebrow}>Copywriter freelance · Ancona</div>
+            <h1 className={styles.heroTitle}>
+              Scrivo testi che <mark className={styles.mark}>si capiscono al primo colpo.</mark>
             </h1>
-            <p>
-              Aiuto piccole aziende e professionisti a raccontarsi in modo chiaro — siti, cataloghi,
-              comunicazioni: parole che lavorano davvero.
+            <p className={styles.heroText}>
+              Aiuto piccole imprese e professionisti a dire quello che fanno senza giri di parole.
+              Qui sotto non trovi un elenco di aggettivi: trovi <em>i testi prima e dopo</em> che
+              ci ho messo le mani.
             </p>
             <div className={styles.heroCtas}>
-              <a href="#contatti" className={styles.btn}>
-                Parliamo del tuo progetto
+              <a href="#lavori" className={styles.btn}>
+                Guarda i prima / dopo
               </a>
-              <a href="#servizi" className={styles.btnOutline}>
-                Vedi i servizi
+              <a href="#contatti" className={styles.btnOutline}>
+                Scrivimi
               </a>
+            </div>
+
+            <div className={styles.heroMeta}>
+              <span>Nove anni di mestiere</span>
+              <span className={styles.sep} aria-hidden="true"></span>
+              <span>Oltre 120 progetti</span>
+              <span className={styles.sep} aria-hidden="true"></span>
+              <span>Risposta entro 48 ore</span>
             </div>
           </div>
         </section>
 
+        {/* ------------------------------------------------------- settori */}
         <div className={styles.trust}>
           <div className={styles.wrap}>
-            <p>Ho scritto per aziende in questi settori</p>
-            <div className={styles.trustLogos}>
+            <p className={styles.trustLbl}>Ho scritto per attività in questi settori</p>
+            <div className={styles.trustRow}>
               <span>Formazione</span>
               <span>Artigianato</span>
               <span>Consulenza</span>
               <span>Retail</span>
+              <span>Ospitalità</span>
             </div>
           </div>
         </div>
 
-        <section className={styles.echoSection} id="processo" ref={sectionRef}>
+        {/* ------------------------------------------------------- lavori */}
+        <section className={styles.section} id="lavori">
           <div className={styles.wrap}>
-            <ul className={styles.echoList} ref={listRef}>
-              <li>ascolto il brief.</li>
-              <li>studio chi lo leggerà.</li>
-              <li>scrivo la prima bozza.</li>
-              <li>affino ogni frase.</li>
-              <li>consegno testi pronti.</li>
-            </ul>
+            <div className={styles.sectionHead}>
+              <div className={styles.eyebrow}>Il lavoro</div>
+              <h2 className={styles.sectionTitle}>Prima e dopo, senza ritocchi</h2>
+              <p className={styles.sectionLead}>
+                Tre testi veri, con il permesso di chi li ha commissionati. A sinistra quello che
+                c’era, a destra quello che c’è adesso.
+              </p>
+            </div>
+            <Rewrites />
           </div>
         </section>
 
-        <section className={styles.section} id="servizi">
-          <div className={styles.sectionHead}>
-            <div className={styles.eyebrow}>Come posso aiutarti</div>
-            <h2>Servizi e tariffe indicative</h2>
-          </div>
+        {/* --------------------------------------------------------- voce */}
+        <section className={`${styles.section} ${styles.sectionSoft}`} id="voce">
           <div className={styles.wrap}>
+            <div className={styles.sectionHead}>
+              <div className={styles.eyebrow}>Tono di voce</div>
+              <h2 className={styles.sectionTitle}>La stessa cosa, detta in tre modi</h2>
+              <p className={styles.sectionLead}>
+                «Ma poi ci farà sembrare quelli che non siamo?» È la domanda che mi fanno tutti.
+                Ecco la risposta, su un caso solo.
+              </p>
+            </div>
+            <ToneSwitcher />
+          </div>
+        </section>
+
+        {/* --------------------------------------------------------- come */}
+        <section className={styles.section} id="come">
+          <div className={styles.wrap}>
+            <div className={styles.sectionHead}>
+              <div className={styles.eyebrow}>Come lavoro</div>
+              <h2 className={styles.sectionTitle}>Cinque passaggi, nessuna sorpresa</h2>
+            </div>
+            <ol className={styles.steps}>
+              {steps.map((s, i) => (
+                <Reveal key={s.n} as="li" delay={i * 60} className={styles.step}>
+                  <div className={styles.stepNum}>{s.n}</div>
+                  <div>
+                    <h3 className={styles.stepTitle}>{s.title}</h3>
+                    <p className={styles.stepText}>{s.text}</p>
+                  </div>
+                </Reveal>
+              ))}
+            </ol>
+          </div>
+        </section>
+
+        {/* ------------------------------------------------------ tariffe */}
+        <section className={`${styles.section} ${styles.sectionSoft}`} id="tariffe">
+          <div className={styles.wrap}>
+            <div className={styles.sectionHead}>
+              <div className={styles.eyebrow}>Tariffe</div>
+              <h2 className={styles.sectionTitle}>Quanto costa, detto prima</h2>
+              <p className={styles.sectionLead}>
+                Punti di partenza, non listini. Dopo la prima chiacchierata ti mando un preventivo
+                con una cifra sola, e quella resta.
+              </p>
+            </div>
             <div className={styles.services}>
-              <Reveal className={styles.service}>
-                <div>
-                  <div className={styles.name}>Testi per sito web</div>
-                  <div className={styles.desc}>
-                    Homepage, chi siamo, pagine servizi — copy pensato per convertire.
+              {services.map((s, i) => (
+                <Reveal key={s.name} delay={i * 70} className={styles.service}>
+                  <div className={styles.serviceTop}>
+                    <h3 className={styles.serviceName}>{s.name}</h3>
+                    <div className={styles.servicePrice}>{s.price}</div>
                   </div>
-                </div>
-                <div className={styles.price}>da € 350</div>
-              </Reveal>
-              <Reveal delay={70} className={styles.service}>
-                <div>
-                  <div className={styles.name}>Newsletter & email</div>
-                  <div className={styles.desc}>
-                    Sequenze email o newsletter periodica, tono coerente col brand.
-                  </div>
-                </div>
-                <div className={styles.price}>da € 180</div>
-              </Reveal>
-              <Reveal delay={140} className={styles.service}>
-                <div>
-                  <div className={styles.name}>Revisione testi esistenti</div>
-                  <div className={styles.desc}>
-                    Editing e riscrittura di contenuti già presenti sul tuo sito.
-                  </div>
-                </div>
-                <div className={styles.price}>da € 120</div>
-              </Reveal>
+                  <p className={styles.serviceDesc}>{s.desc}</p>
+                  <div className={styles.serviceTime}>Tempi indicativi: {s.time}</div>
+                  <ul className={styles.serviceList}>
+                    {s.includes.map((i2) => (
+                      <li key={i2}>{i2}</li>
+                    ))}
+                  </ul>
+                </Reveal>
+              ))}
             </div>
           </div>
         </section>
 
+        {/* ------------------------------------------------------- quotes */}
         <section className={styles.section}>
           <div className={styles.wrap}>
-            <Reveal className={styles.quoteBlock}>
-              <p>
-                &ldquo;Ha trasformato una pagina di servizi confusa in qualcosa che finalmente i
-                clienti capiscono al primo sguardo.&rdquo;
-              </p>
-              <div className={styles.who}>— Titolare, studio di consulenza (Ancona)</div>
-            </Reveal>
+            <div className={styles.quotes}>
+              {quotes.map((q, i) => (
+                <Reveal key={q.who} delay={i * 80} className={styles.quote}>
+                  <p className={styles.quoteText}>{q.text}</p>
+                  <div className={styles.quoteWho}>{q.who}</div>
+                </Reveal>
+              ))}
+            </div>
           </div>
         </section>
 
-        <section className={styles.section} id="contatti" style={{ borderBottom: 'none' }}>
-          <div className={styles.wrap}>
-            <div className={styles.contactRow}>
-              <div>
-                <div className={styles.k}>Scriviamoci</div>
-                <div className={styles.v}>Risposta entro 48h</div>
-              </div>
+        {/* ------------------------------------------------------ contatti */}
+        <section className={styles.contact} id="contatti">
+          <div className={`${styles.wrap} ${styles.contactInner}`}>
+            <div>
+              <h2 className={styles.contactTitle}>Raccontami cosa devi dire</h2>
+              <p className={styles.contactText}>
+                Due righe sull’attività e cosa ti serve. Ti rispondo entro quarantotto ore, e se il
+                lavoro non fa per me te lo dico subito — di solito con il nome di qualcuno che lo fa
+                meglio.
+              </p>
+            </div>
+            <div className={styles.contactSide}>
               <a href="mailto:marta@martaferri.it" className={styles.btn}>
                 marta@martaferri.it
               </a>
+              <span className={styles.contactSub}>
+                Oppure 071 000 0002, dal lunedì al venerdì
+              </span>
             </div>
           </div>
         </section>
