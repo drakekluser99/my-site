@@ -37,17 +37,21 @@
   margin-left: auto;
 }
 
-.navlinks a {
+/* These are deliberately over-qualified (.header .x, not .x): every demo page
+   sets `.pageRoot a { color: inherit }`, which is (0,1,1) and would otherwise
+   beat a bare class here — that reset was silently washing the CTA label out
+   to --text on the accent fill instead of the intended --bg-panel. */
+.header .navlinks a {
   color: var(--text);
   text-decoration: none;
   transition: color 0.15s ease;
 }
 
-.navlinks a:hover {
+.header .navlinks a:hover {
   color: var(--accent);
 }
 
-.cta {
+.header .cta {
   flex-shrink: 0;
   display: inline-block;
   background: var(--accent);
@@ -107,15 +111,15 @@
   transition: max-height 0.25s ease;
 }
 
-.mobileNav a,
-.ctaMobile {
+.header .mobileNav a,
+.header .ctaMobile {
   padding: 14px 24px;
   color: var(--text);
   text-decoration: none;
   border-bottom: 1px dashed var(--line);
 }
 
-.ctaMobile {
+.header .ctaMobile {
   color: var(--accent);
   font-weight: 600;
 }
@@ -126,8 +130,8 @@
 }
 
 @media (max-width: 640px) {
-  .navlinks,
-  .cta {
+  .header .navlinks,
+  .header .cta {
     display: none;
   }
 

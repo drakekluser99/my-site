@@ -939,7 +939,7 @@ function HomeContent() {
                       {t('sc1-title')}
                     </h3>
                     <p>
-                      Osteria Vento — carta stagionale con prezzi a puntini, stile trattoria vera.
+                      Osteria Vento — pizzeria a legna: carta a categorie e prenotazione tavolo.
                     </p>
                     <span className={styles['showcase-open']}>
                       {t('showcase-open')}
