@@ -955,7 +955,7 @@ function HomeContent() {
                       {t('sc2-title')}
                     </h3>
                     <p>
-                      Studio legale/commercialista — layout istituzionale con credenziali in evidenza.
+                      Studio legale/commercialista — aree di attività a indice e richiesta di primo incontro.
                     </p>
                     <span className={styles['showcase-open']}>
                       {t('showcase-open')}

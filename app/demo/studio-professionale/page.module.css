@@ -1,21 +1,36 @@
-.pageRoot {
-  --bg: #f5f6f4;
-  --navy: #10233a;
-  --navy-2: #16314f;
-  --brass: #9c7a3c;
-  --text: #1b2733;
-  --muted: #5c6b7a;
-  --line: #dadfe0;
+/* Studio Renzi & Associati — law / accounting practice.
+   Design language is the legal document rather than the agency landing page:
+   hairline rules, numbered clauses, marginalia set in the system monospace,
+   an engraved seal. A firm sells authority and discretion, so the distinctive
+   move has to be editorial, never decorative. */
 
-  /* shared shell contract */
+.pageRoot {
+  --paper: #f4f3ef;
+  --paper-2: #eceae4;
+  --white: #fffefb;
+  --navy: #0d1f33;
+  --navy-2: #14304d;
+  /* Two brasses, and they are not interchangeable: --brass is the one that
+     has to survive on paper (the eyebrow is 0.72rem, so it needs 4.5:1 even
+     against the darkest --paper-2), --brass-hi the one that has to survive on
+     navy. Using either on the wrong ground lands around 3.6:1. */
+  --brass: #7d6029;
+  --brass-hi: #b18f4d;
+  --text: #16212c;
+  --muted: #5b6a78;
+  --line: #d6d3ca;
+  --line-dark: rgba(255, 255, 255, 0.14);
+  --mono: ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, monospace;
+
+  /* contract read by DemoShell */
   --accent: var(--brass);
-  --bg-panel: var(--navy);
+  --bg-panel: var(--white);
 }
 
 .pageRoot {
-  background: var(--bg);
+  background: var(--paper);
   color: var(--text);
-  font-family: 'Libre Franklin', sans-serif;
+  font-family: 'Libre Franklin', system-ui, sans-serif;
   line-height: 1.65;
   overflow-x: hidden;
 }
@@ -26,7 +41,7 @@
 }
 
 .wrap {
-  max-width: 960px;
+  max-width: 1060px;
   margin: 0 auto;
   padding: 0 32px;
 }
@@ -35,55 +50,75 @@
   color: var(--brass);
 }
 
+.eyebrow {
+  font-family: var(--mono);
+  color: var(--brass);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  font-size: 0.72rem;
+}
+
+.hero .eyebrow,
+.sectionDark .eyebrow {
+  color: var(--brass-hi);
+}
+
+/* ------------------------------------------------------------------ hero */
+
 .hero {
   background: var(--navy);
   color: #fff;
-  padding: 110px 0 100px;
   position: relative;
   overflow: hidden;
+  padding: 96px 0 92px;
 }
 
 .hero::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 45% 60% at 88% 15%, rgba(156, 122, 60, 0.3), transparent 65%),
+  background:
+    radial-gradient(ellipse 50% 60% at 84% 12%, rgba(177, 143, 77, 0.26), transparent 62%),
     linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
 }
 
+/* faint ledger rules across the whole hero */
 .hero::after {
   content: '';
   position: absolute;
   inset: 0;
-  background: repeating-linear-gradient(100deg, rgba(199, 208, 217, 0.03) 0 1px, transparent 1px 26px);
+  background: repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.045) 0 1px, transparent 1px 34px);
 }
 
-.hero .wrap {
+.heroInner {
   position: relative;
   z-index: 1;
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: 56px;
+  align-items: center;
 }
 
-.eyebrow {
-  color: var(--brass);
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  font-size: 0.78rem;
-  margin-bottom: 20px;
-}
-
-.hero h1 {
-  font-family: 'Source Serif 4', serif;
+.heroTitle {
+  font-family: 'Source Serif 4', Georgia, serif;
   font-weight: 600;
-  font-size: clamp(2.2rem, 5vw, 3.4rem);
-  line-height: 1.15;
-  max-width: 680px;
-  margin-bottom: 22px;
+  font-size: clamp(2.1rem, 4.6vw, 3.5rem);
+  line-height: 1.14;
+  letter-spacing: -0.015em;
+  margin: 20px 0 22px;
+  max-width: 15ch;
 }
 
-.hero p {
-  color: #b7c3ce;
-  max-width: 520px;
-  margin-bottom: 36px;
+.heroTitle em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--brass-hi);
+}
+
+.heroText {
+  color: #b9c5d0;
+  max-width: 52ch;
+  margin-bottom: 34px;
   font-size: 1.02rem;
 }
 
@@ -93,113 +128,360 @@
   gap: 12px;
 }
 
-.btn {
+.btn,
+.btnOutline {
   display: inline-block;
-  background: var(--brass);
-  color: var(--navy);
   padding: 14px 30px;
+  font-family: inherit;
+  font-size: 0.88rem;
   font-weight: 600;
-  font-size: 0.9rem;
   border-radius: 2px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, border-color 0.18s ease;
+}
+
+.btn {
+  background: var(--brass);
+  color: #fff;
+}
+
+.btn:hover {
+  background: var(--brass-hi);
 }
 
 .btnOutline {
-  display: inline-block;
-  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-color: rgba(255, 255, 255, 0.32);
   color: #fff;
-  padding: 14px 30px;
-  font-size: 0.9rem;
-  border-radius: 2px;
 }
+
+.btnOutline:hover {
+  border-color: var(--brass-hi);
+  color: var(--brass-hi);
+}
+
+/* the seal ---------------------------------------------------------- */
+
+.sealWrap {
+  justify-self: center;
+  width: min(100%, 300px);
+}
+
+.seal {
+  width: 100%;
+  height: auto;
+  opacity: 0.92;
+}
+
+.sealRingOuter {
+  fill: none;
+  stroke: var(--brass-hi);
+  stroke-width: 2;
+  opacity: 0.75;
+}
+
+.sealRingThin {
+  fill: none;
+  stroke: var(--brass-hi);
+  stroke-width: 0.75;
+  opacity: 0.5;
+}
+
+.sealText {
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.24em;
+  fill: var(--brass-hi);
+}
+
+.sealMono {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 34px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  fill: #fff;
+}
+
+.sealRule {
+  stroke: var(--brass-hi);
+  stroke-width: 1;
+  opacity: 0.6;
+}
+
+.sealYear {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.16em;
+  fill: var(--brass-hi);
+}
+
+/* ----------------------------------------------------------- credenziali */
 
 .credentials {
   background: var(--navy-2);
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid var(--line-dark);
 }
 
 .credRow {
-  display: flex;
-  justify-content: space-between;
-  padding: 22px 0;
-  flex-wrap: wrap;
-  gap: 16px;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  padding-top: 26px;
+  padding-bottom: 26px;
 }
 
-.item {
-  color: #c7d0d9;
-  font-size: 0.85rem;
+.credItem {
+  color: #b9c5d0;
+  font-size: 0.82rem;
+  border-left: 1px solid var(--line-dark);
+  padding-left: 18px;
 }
 
-.item b {
-  color: #fff;
+.credItem:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.credNum {
   display: block;
-  font-family: 'Source Serif 4', serif;
-  font-size: 1.3rem;
-  margin-bottom: 2px;
+  color: #fff;
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.7rem;
+  font-weight: 600;
+  line-height: 1.2;
 }
+
+/* --------------------------------------------------------------- sections */
 
 .section {
-  padding: 76px 0;
+  padding: 88px 0;
   border-bottom: 1px solid var(--line);
 }
 
-.sectionHead {
-  margin-bottom: 44px;
+.sectionPaper {
+  background: var(--paper-2);
 }
 
-.sectionHead .eyebrow {
-  margin-bottom: 10px;
+.sectionDark {
+  background: var(--navy);
+  color: #fff;
+  border-bottom: none;
+}
+
+.sectionDark .sectionLead {
+  color: #b9c5d0;
+}
+
+.sectionHead {
+  margin-bottom: 46px;
+  max-width: 62ch;
 }
 
 .sectionHead h2 {
-  font-family: 'Source Serif 4', serif;
-  font-size: 1.9rem;
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: clamp(1.7rem, 3.2vw, 2.3rem);
   font-weight: 600;
+  letter-spacing: -0.01em;
+  margin: 12px 0 0;
 }
 
-.practiceList {
+.sectionLead {
+  color: var(--muted);
+  margin-top: 14px;
+  font-size: 0.96rem;
+}
+
+/* --------------------------------------------- aree di attività (index) */
+
+.index {
+  border-top: 1px solid var(--line);
+}
+
+.indexRow {
+  border-bottom: 1px solid var(--line);
+  background: transparent;
+  transition: background 0.2s ease;
+}
+
+.indexRowOpen {
+  background: var(--white);
+}
+
+.indexHeading {
+  margin: 0;
+  font-size: inherit;
+  font-weight: inherit;
+}
+
+.indexTrigger {
+  display: flex;
+  align-items: center;
+  gap: 22px;
+  width: 100%;
+  padding: 24px 22px;
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.indexTrigger:hover .indexName {
+  color: var(--brass);
+}
+
+.indexRef {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--brass);
+  letter-spacing: 0.1em;
+  flex-shrink: 0;
+  padding-top: 3px;
+}
+
+.indexTitles {
+  flex: 1;
+  min-width: 0;
+}
+
+.indexArea {
+  display: block;
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 4px;
+}
+
+.indexName {
+  display: block;
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: clamp(1.1rem, 2.2vw, 1.45rem);
+  font-weight: 600;
+  line-height: 1.25;
+  transition: color 0.18s ease;
+}
+
+/* plus / minus drawn with two rules so it animates cleanly */
+.indexSign {
+  position: relative;
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.indexSign::before,
+.indexSign::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;
+  height: 1.5px;
+  background: var(--brass);
+  transition: transform 0.24s ease, opacity 0.24s ease;
+}
+
+.indexSign::after {
+  transform: rotate(90deg);
+}
+
+.indexRowOpen .indexSign::after {
+  transform: rotate(0deg);
+  opacity: 0;
+}
+
+.indexPanel {
+  padding: 0 22px 30px 78px;
+  animation: unfold 0.28s ease both;
+}
+
+@keyframes unfold {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: none; }
+}
+
+.indexLead {
+  color: var(--muted);
+  max-width: 62ch;
+  margin-bottom: 20px;
+}
+
+.indexList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--line);
-  border: 1px solid var(--line);
+  gap: 10px 30px;
 }
 
-.practice {
-  background: #fff;
-  padding: 28px;
-  border-top: 2px solid transparent;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+.indexList li {
+  position: relative;
+  padding-left: 20px;
+  font-size: 0.9rem;
+  color: var(--text);
 }
 
-.practice:hover {
-  border-top-color: var(--brass);
-  transform: translateY(-2px);
-}
-
-.num {
-  font-family: 'Source Serif 4', serif;
+.indexList li::before {
+  content: '§';
+  position: absolute;
+  left: 0;
   color: var(--brass);
   font-size: 0.85rem;
+}
+
+/* --------------------------------------------------------------- metodo */
+
+.method {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0;
+}
+
+.methodStep {
+  padding: 30px 26px 0 0;
+  border-top: 1px solid var(--line-dark);
+  position: relative;
+}
+
+/* the tick mark sitting on the rule above each step */
+.methodStep::before {
+  content: '';
+  position: absolute;
+  top: -1px;
+  left: 0;
+  width: 34px;
+  height: 2px;
+  background: var(--brass-hi);
+}
+
+.methodNum {
+  font-family: var(--mono);
+  font-size: 0.76rem;
+  letter-spacing: 0.16em;
+  color: var(--brass-hi);
+  margin-bottom: 14px;
+}
+
+.methodTitle {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.2rem;
+  font-weight: 600;
   margin-bottom: 10px;
 }
 
-.practice h3 {
-  font-family: 'Source Serif 4', serif;
-  font-size: 1.15rem;
-  margin-bottom: 8px;
+.methodText {
+  color: #b9c5d0;
+  font-size: 0.89rem;
 }
 
-.practice p {
-  color: var(--muted);
-  font-size: 0.88rem;
-}
-
-@media (max-width: 640px) {
-  .practiceList {
-    grid-template-columns: 1fr;
-  }
-}
+/* ------------------------------------------------------------------ team */
 
 .teamList {
   display: grid;
@@ -208,82 +490,467 @@
 }
 
 .person {
-  display: flex;
-  gap: 16px;
-  align-items: flex-start;
-  padding: 22px;
-  background: #fff;
+  background: var(--white);
   border: 1px solid var(--line);
+  padding: 26px 24px 24px;
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
-.personInitial {
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--navy);
-  color: var(--brass);
-  font-family: 'Source Serif 4', serif;
-  font-weight: 600;
+.person:hover {
+  border-color: var(--brass);
+  transform: translateY(-3px);
+}
+
+.personTop {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 0.95rem;
-}
-
-.person h3 {
-  font-family: 'Source Serif 4', serif;
-  font-size: 1rem;
-  margin-bottom: 4px;
-}
-
-.personRole {
-  color: var(--muted);
-  font-size: 0.85rem;
-  margin-bottom: 2px;
-}
-
-.personYears {
-  color: var(--brass);
-  font-size: 0.76rem;
-  letter-spacing: 0.03em;
-}
-
-@media (max-width: 760px) {
-  .teamList {
-    grid-template-columns: 1fr;
-  }
-}
-
-.contactBand {
-  display: flex;
   justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 20px;
+  gap: 12px;
+  margin-bottom: 18px;
 }
 
-.k {
-  font-family: 'Source Serif 4', serif;
-  font-size: 1.5rem;
+.monogram {
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  background: var(--navy);
+  color: var(--brass-hi);
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  letter-spacing: 0.04em;
+  box-shadow: 0 0 0 1px var(--white), 0 0 0 2px rgba(143, 111, 52, 0.35);
+}
+
+.personRoleTag {
+  font-family: var(--mono);
+  font-size: 0.66rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  padding: 4px 9px;
+}
+
+.personName {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.1rem;
+  font-weight: 600;
   margin-bottom: 6px;
 }
 
-.k a:hover {
+.personFocus {
+  color: var(--muted);
+  font-size: 0.88rem;
+  margin-bottom: 10px;
+}
+
+.personBar {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.04em;
+  color: var(--brass);
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 14px;
+}
+
+.personExtra {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.personExtra li {
+  color: var(--muted);
+  font-size: 0.82rem;
+  padding-left: 14px;
+  position: relative;
+}
+
+.personExtra li::before {
+  content: '—';
+  position: absolute;
+  left: 0;
+  color: var(--line);
+}
+
+/* ------------------------------------------------------------------ casi */
+
+.matters {
+  border-top: 1px solid var(--line);
+}
+
+.matter {
+  display: grid;
+  grid-template-columns: 190px 1fr;
+  gap: 24px;
+  padding: 24px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.matterMeta {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.matterYear {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.matterArea {
   color: var(--brass);
 }
 
-.v {
-  color: var(--muted);
-  font-size: 0.9rem;
+.matterTitle {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.08rem;
+  font-weight: 600;
+  margin-bottom: 4px;
 }
 
-@media (max-width: 480px) {
-  .hero h1 {
-    font-size: 2rem;
+.matterOutcome {
+  color: var(--muted);
+  font-size: 0.89rem;
+}
+
+/* -------------------------------------------------------------- contatti */
+
+.contactGrid {
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 44px;
+  align-items: start;
+}
+
+.formCard {
+  background: var(--white);
+  border: 1px solid var(--line);
+  padding: 30px 28px;
+}
+
+.formHead {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding-bottom: 16px;
+  margin-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.formRef {
+  color: var(--brass);
+}
+
+.field {
+  display: block;
+  margin-bottom: 18px;
+}
+
+.fieldRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.label {
+  display: block;
+  margin-bottom: 7px;
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.input {
+  width: 100%;
+  font: inherit;
+  font-size: 0.94rem;
+  color: var(--text);
+  padding: 12px 14px;
+  background: var(--paper);
+  border: 1px solid var(--line);
+  border-radius: 2px;
+  transition: border-color 0.16s ease, background 0.16s ease;
+}
+
+.input:focus {
+  outline: none;
+  border-color: var(--brass);
+  background: var(--white);
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.formCard .btn {
+  width: 100%;
+}
+
+.formFoot {
+  color: var(--muted);
+  font-size: 0.78rem;
+  margin-top: 14px;
+}
+
+.formSent {
+  text-align: center;
+}
+
+.sentRef {
+  font-family: var(--mono);
+  font-size: 0.7rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brass);
+  padding-bottom: 18px;
+  margin-bottom: 22px;
+  border-bottom: 1px solid var(--line);
+}
+
+.sentTitle {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+}
+
+.sentText {
+  color: var(--muted);
+  max-width: 44ch;
+  margin: 0 auto 12px;
+}
+
+.sentNote {
+  color: var(--muted);
+  font-size: 0.78rem;
+  opacity: 0.8;
+  margin-bottom: 22px;
+}
+
+.linkBtn {
+  font: inherit;
+  font-size: 0.86rem;
+  color: var(--brass);
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--brass);
+  padding: 0 0 2px;
+  cursor: pointer;
+}
+
+.infoList {
+  margin: 0 0 28px;
+  border-top: 1px solid var(--line);
+}
+
+.infoRow {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.infoRow dt {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  padding-top: 4px;
+}
+
+.infoRow dd {
+  margin: 0;
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.05rem;
+}
+
+.infoSub {
+  display: block;
+  font-family: 'Libre Franklin', sans-serif;
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.link {
+  border-bottom: 1px solid transparent;
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.link:hover {
+  color: var(--brass);
+  border-color: var(--brass);
+}
+
+.noteCard {
+  background: var(--navy);
+  color: #b9c5d0;
+  padding: 24px 22px;
+  font-size: 0.88rem;
+  border-left: 2px solid var(--brass-hi);
+}
+
+.noteRef {
+  font-family: var(--mono);
+  font-size: 0.68rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brass-hi);
+  margin-bottom: 10px;
+}
+
+/* ----------------------------------------------------------- responsive */
+
+@media (max-width: 900px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+    gap: 44px;
   }
 
-  .practice {
-    padding: 22px;
+  .sealWrap {
+    width: min(100%, 240px);
+    order: -1;
+  }
+
+  .heroTitle {
+    max-width: none;
+  }
+
+  .credRow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 22px;
+  }
+
+  .credItem:nth-child(odd) {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .method {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 8px 24px;
+  }
+
+  .teamList {
+    grid-template-columns: 1fr;
+  }
+
+  .contactGrid {
+    grid-template-columns: 1fr;
+    gap: 34px;
+  }
+}
+
+@media (max-width: 620px) {
+  .section {
+    padding: 62px 0;
+  }
+
+  .wrap {
+    padding: 0 22px;
+  }
+
+  .hero {
+    padding: 64px 0 66px;
+  }
+
+  .heroCtas .btn,
+  .heroCtas .btnOutline {
+    flex: 1;
+    text-align: center;
+    padding-inline: 16px;
+  }
+
+  .credRow {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .credItem {
+    border-left: none;
+    padding-left: 0;
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+  }
+
+  .credNum {
+    font-size: 1.4rem;
+  }
+
+  .indexTrigger {
+    gap: 14px;
+    padding: 20px 4px;
+  }
+
+  .indexPanel {
+    padding: 0 4px 26px 4px;
+  }
+
+  .indexList {
+    grid-template-columns: 1fr;
+  }
+
+  .method {
+    grid-template-columns: 1fr;
+  }
+
+  .methodStep {
+    padding-right: 0;
+    padding-bottom: 22px;
+  }
+
+  .matter {
+    grid-template-columns: 1fr;
+    gap: 8px;
+  }
+
+  .fieldRow {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+  .infoRow {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+
+  .formCard {
+    padding: 24px 20px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .indexPanel {
+    animation: none;
+  }
+
+  .person,
+  .indexRow,
+  .indexSign::before,
+  .indexSign::after,
+  .btn,
+  .btnOutline {
+    transition: none;
   }
 }
