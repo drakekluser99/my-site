@@ -987,7 +987,7 @@ function HomeContent() {
                       {t('sc4-title')}
                     </h3>
                     <p>
-                      Athletic club — energia da scoreboard, orario corsi.
+                      Athletic club — tabellone con l’ora reale, orario settimanale e prenotazione posto.
                     </p>
                     <span className={styles['showcase-open']}>
                       {t('showcase-open')}

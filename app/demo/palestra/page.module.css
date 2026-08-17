@@ -1,94 +1,112 @@
-.pageRoot {
-  --bg: #0d0d0d;
-  --card: #161616;
-  --orange: #ff4b2b;
-  --yellow: #f5c400;
-  --text: #f2f2f0;
-  --muted: #8a8a85;
-  --line: #262626;
+/* Forma Athletic Club.
+   Deliberately a light page: essentially every gym site is black with an
+   orange gradient and condensed caps, so bone-white paper with heavy ink
+   type and one signal colour is the thing that actually reads as different.
+   The reference is track-and-field print, not the supplement aisle. */
 
-  /* shared shell contract */
-  --accent: var(--orange);
-  --bg-panel: var(--bg);
+.pageRoot {
+  --paper: #efeee9;
+  --paper-2: #e5e3dc;
+  --white: #fbfaf7;
+  --ink: #14140f;
+  --ink-2: #2a2a22;
+  --signal: #d63a11;
+  --signal-ink: #b32f0c;
+  --lime: #c9f24a;
+  --muted: #5f5f56;
+  --line: #d2cfc5;
+  --line-ink: rgba(255, 255, 255, 0.14);
+
+  --cond: 'Barlow Condensed', 'Arial Narrow', sans-serif;
+
+  /* contract read by DemoShell */
+  --accent: var(--signal-ink);
+  --bg-panel: var(--white);
 }
 
 .pageRoot {
-  background: var(--bg);
-  color: var(--text);
-  font-family: 'Barlow', sans-serif;
-  line-height: 1.5;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Archivo', system-ui, sans-serif;
+  line-height: 1.6;
   overflow-x: hidden;
 }
 
-.pageRoot :global(a) {
+/* :where() drops the reset to zero specificity. It still beats the UA anchor
+   colour (author rules always do), but now any class on a link wins over it.
+   As `.pageRoot a` it was (0,1,1) and silently repainted every anchor-based
+   button with its container's colour — which made the phone number in the
+   closing band paper-on-paper. */
+:where(.pageRoot a) {
   color: inherit;
   text-decoration: none;
 }
 
 .wrap {
-  max-width: 1040px;
+  max-width: 1100px;
   margin: 0 auto;
   padding: 0 30px;
 }
 
 .dot {
-  color: var(--orange);
-}
-
-.hero {
-  padding: 110px 0 90px;
-  border-bottom: 2px solid var(--line);
-  position: relative;
-  overflow: hidden;
-}
-
-.hero::before {
-  content: '';
-  position: absolute;
-  inset: -15%;
-  background: radial-gradient(ellipse 40% 65% at 90% 10%, rgba(255, 75, 43, 0.28), transparent 60%),
-    radial-gradient(ellipse 45% 40% at 10% 95%, rgba(245, 196, 0, 0.16), transparent 60%);
-}
-
-.hero::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(-16deg, rgba(255, 75, 43, 0.05) 0 2px, transparent 2px 34px);
-  mask-image: linear-gradient(100deg, #000, transparent 55%);
-}
-
-.hero .wrap {
-  position: relative;
-  z-index: 1;
+  color: var(--signal-ink);
 }
 
 .eyebrow {
-  color: var(--yellow);
-  text-transform: uppercase;
-  letter-spacing: 0.14em;
-  font-size: 0.8rem;
+  display: inline-block;
+  font-family: var(--cond);
   font-weight: 600;
-  margin-bottom: 18px;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  font-size: 0.92rem;
+  color: var(--signal-ink);
 }
 
-.hero h1 {
-  font-family: 'Anton', sans-serif;
+/* ------------------------------------------------------------------ hero */
+
+.hero {
+  position: relative;
+  padding: 70px 0 76px;
+  border-bottom: 2px solid var(--ink);
+  overflow: hidden;
+}
+
+/* diagonal track hatching, kept faint */
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(-24deg, rgba(20, 20, 15, 0.045) 0 2px, transparent 2px 26px);
+  pointer-events: none;
+}
+
+.heroInner {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  grid-template-columns: 1.15fr 0.85fr;
+  gap: 54px;
+  align-items: center;
+}
+
+.heroTitle {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  font-size: clamp(2.4rem, 6vw, 4.4rem);
+  line-height: 0.94;
+  letter-spacing: -0.035em;
   text-transform: uppercase;
-  font-size: clamp(2.8rem, 9vw, 5.8rem);
-  line-height: 0.92;
-  letter-spacing: 0.01em;
+  margin: 18px 0 22px;
 }
 
 .hl {
-  color: var(--orange);
+  color: var(--signal);
 }
 
-.hero p {
+.heroText {
   color: var(--muted);
-  max-width: 460px;
-  margin: 24px 0 32px;
-  font-size: 1.02rem;
+  max-width: 46ch;
+  margin-bottom: 30px;
 }
 
 .heroCtas {
@@ -97,207 +115,962 @@
   gap: 12px;
 }
 
-.btn {
+.btn,
+.btnOutline,
+.btnDark {
   display: inline-block;
-  background: var(--orange);
-  color: #0d0d0d;
-  padding: 16px 34px;
+  font-family: var(--cond);
   font-weight: 700;
-  font-size: 0.9rem;
+  font-size: 1.05rem;
   text-transform: uppercase;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.06em;
+  padding: 14px 30px;
+  border: 2px solid var(--ink);
+  cursor: pointer;
+  transition: transform 0.15s ease, background 0.15s ease, color 0.15s ease;
+}
+
+.btn {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.btn:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 4px 4px 0 var(--signal);
 }
 
 .btnOutline {
-  display: inline-block;
-  border: 2px solid var(--text);
-  color: var(--text);
-  padding: 14px 32px;
-  font-weight: 700;
-  font-size: 0.9rem;
-  text-transform: uppercase;
+  background: transparent;
+  color: var(--ink);
 }
 
-.scoreboard {
-  background: var(--card);
-  border-bottom: 2px solid var(--line);
+.btnOutline:hover {
+  background: var(--ink);
+  color: var(--paper);
 }
 
-.scoreRow {
+.btnDark {
+  background: var(--paper);
+  color: var(--ink);
+  border-color: var(--paper);
+}
+
+.btnDark:hover {
+  transform: translate(-2px, -2px);
+}
+
+/* the scoreboard ----------------------------------------------------- */
+
+.board {
+  background: var(--ink);
+  color: var(--paper);
+  border: 2px solid var(--ink);
+  padding: 22px 24px 18px;
+}
+
+.boardTop {
   display: flex;
-  justify-content: space-around;
-  padding: 32px 0;
-  flex-wrap: wrap;
-  gap: 20px;
-  text-align: center;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--line-ink);
 }
 
-.num {
-  font-family: 'Anton', sans-serif;
-  font-size: 2.6rem;
-  color: var(--yellow);
+.boardClock {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 3.2rem;
+  line-height: 1;
+  letter-spacing: 0.02em;
+  font-variant-numeric: tabular-nums;
+  color: var(--lime);
 }
 
-.lbl {
-  color: var(--muted);
-  font-size: 0.78rem;
+.boardStatus {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--cond);
+  font-weight: 600;
   text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-
-.section {
-  padding: 70px 0;
-  border-bottom: 2px solid var(--line);
-}
-
-.sectionHead {
-  margin-bottom: 40px;
-}
-
-.sectionHead .eyebrow {
-  margin-bottom: 10px;
-}
-
-.sectionHead h2 {
-  font-family: 'Anton', sans-serif;
-  text-transform: uppercase;
-  font-size: 2rem;
-}
-
-.schedule {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.schedule th {
-  text-align: left;
-  color: var(--muted);
-  font-size: 0.75rem;
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-  padding-bottom: 14px;
-  border-bottom: 2px solid var(--line);
-}
-
-.schedule td {
-  padding: 16px 0;
-  border-bottom: 1px solid var(--line);
+  letter-spacing: 0.1em;
   font-size: 0.92rem;
 }
 
-.time {
-  color: var(--orange);
-  font-weight: 700;
+.boardLed {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  background: var(--lime);
+  box-shadow: 0 0 8px var(--lime);
+  animation: blink 2.4s ease-in-out infinite;
 }
 
-.schedule tbody tr:last-child td {
+.boardStatusShut .boardLed {
+  background: #8a8a80;
+  box-shadow: none;
+  animation: none;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+.boardRow {
+  display: grid;
+  grid-template-columns: 92px 1fr;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--line-ink);
+}
+
+.boardKey {
+  font-family: var(--cond);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.86rem;
+  color: #a9a99e;
+  padding-top: 3px;
+}
+
+.boardVal strong {
+  display: block;
+  font-weight: 600;
+  font-size: 1.02rem;
+  line-height: 1.3;
+}
+
+.boardIdle {
+  color: #cfcfc4;
+  font-weight: 500 !important;
+}
+
+.boardSub {
+  display: block;
+  color: #a9a99e;
+  font-size: 0.82rem;
+}
+
+.boardNote {
+  color: #96968c;
+  font-size: 0.72rem;
+  margin-top: 14px;
+  line-height: 1.5;
+}
+
+/* ----------------------------------------------------------------- facts */
+
+.facts {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.factsRow {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+  padding-top: 26px;
+  padding-bottom: 26px;
+}
+
+.fact {
+  border-left: 1px solid var(--line-ink);
+  padding-left: 20px;
+}
+
+.fact:first-child {
+  border-left: none;
+  padding-left: 0;
+}
+
+.factNum {
+  display: block;
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 2.4rem;
+  line-height: 1;
+  color: var(--lime);
+  font-variant-numeric: tabular-nums;
+}
+
+.factLbl {
+  display: block;
+  color: #a9a99e;
+  font-size: 0.8rem;
+  margin-top: 4px;
+}
+
+/* -------------------------------------------------------------- sections */
+
+.section {
+  padding: 84px 0;
+  border-bottom: 2px solid var(--ink);
+}
+
+.sectionSoft {
+  background: var(--paper-2);
+}
+
+.sectionInk {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.sectionInk .eyebrow {
+  color: var(--lime);
+}
+
+.sectionInk .sectionLead {
+  color: #a9a99e;
+}
+
+.sectionHead {
+  margin-bottom: 44px;
+  max-width: 60ch;
+}
+
+.sectionTitle {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1;
+  margin-top: 10px;
+}
+
+.sectionLead {
+  color: var(--muted);
+  margin-top: 14px;
+}
+
+/* -------------------------------------------------------------- timetable */
+
+.tt {
+  border: 2px solid var(--ink);
+  background: var(--white);
+}
+
+.ttBar {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: 16px;
+  border-bottom: 2px solid var(--ink);
+  background: var(--paper-2);
+}
+
+.ttDays {
+  display: flex;
+  flex: 1;
+  overflow-x: auto;
+}
+
+.ttDay {
+  flex: 1;
+  min-width: 62px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 6px;
+  background: none;
+  border: none;
+  border-right: 1px solid var(--line);
+  font: inherit;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ttDay:hover {
+  background: var(--white);
+  color: var(--ink);
+}
+
+.ttDayOn,
+.ttDayOn:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.ttDayShort {
+  font-family: var(--cond);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 1rem;
+}
+
+.ttDayCount {
+  font-size: 0.72rem;
+  opacity: 0.7;
+}
+
+.ttToday {
+  flex-shrink: 0;
+  align-self: center;
+  margin-right: 14px;
+  font-family: var(--cond);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.9rem;
+  color: var(--signal-ink);
+  background: none;
+  border: none;
+  border-bottom: 2px solid var(--signal-ink);
+  padding: 2px 0;
+  cursor: pointer;
+}
+
+.ttPanel {
+  padding: 24px 26px 20px;
+  animation: slide 0.28s ease both;
+}
+
+@keyframes slide {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
+
+.ttDayTitle {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  font-size: 1.15rem;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 4px;
+}
+
+.ttDayTitle span {
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+
+.ttList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.ttItem {
+  display: grid;
+  grid-template-columns: 76px 1fr auto;
+  gap: 22px;
+  align-items: center;
+  padding: 18px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.ttItem:last-child {
   border-bottom: none;
 }
 
-@media (max-width: 560px) {
-  .schedule {
-    font-size: 0.85rem;
-  }
+.ttItemFull {
+  opacity: 0.55;
+}
 
-  .schedule th:nth-child(2),
-  .schedule td:nth-child(2) {
-    display: none;
-  }
+.ttTime {
+  font-family: var(--cond);
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+.ttTime strong {
+  display: block;
+  font-weight: 700;
+  font-size: 1.55rem;
+}
+
+.ttTime span {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+.ttName {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 700;
+  font-size: 1.02rem;
+  margin-bottom: 2px;
+}
+
+.ttMeta {
+  color: var(--muted);
+  font-size: 0.84rem;
+}
+
+.ttIntensity,
+.ttIntensityLbl {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.ttIntensity {
+  margin-top: 7px;
+}
+
+.ttIntensityLbl {
+  font-family: var(--cond);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
+.ttBars {
+  display: inline-flex;
+  gap: 3px;
+}
+
+/* Named .intSeg, not .ttBar: the day strip above is .ttBar, and sharing the
+   name collapsed it to this rule's 16x6px. */
+.intSeg,
+.intSegOn {
+  display: block;
+  width: 16px;
+  height: 6px;
+  background: var(--line);
+}
+
+.intSegOn {
+  background: var(--signal);
+}
+
+.sectionInk .intSeg {
+  background: rgba(255, 255, 255, 0.18);
+}
+
+.sectionInk .intSegOn {
+  background: var(--lime);
+}
+
+.ttAction {
+  text-align: right;
+}
+
+.ttFree {
+  display: block;
+  font-family: var(--cond);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 0.86rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+.ttBook {
+  font-family: var(--cond);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  font-size: 0.95rem;
+  /* 11px keeps the control at a 44px tap target */
+  padding: 11px 20px;
+  border: 2px solid var(--ink);
+  background: transparent;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.ttBook:hover:not(:disabled) {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.ttBookOn,
+.ttBookOn:hover:not(:disabled) {
+  background: var(--signal-ink);
+  border-color: var(--signal-ink);
+  color: var(--white);
+}
+
+.ttBook:disabled {
+  cursor: not-allowed;
+  border-color: var(--line);
+  color: var(--muted);
+}
+
+.ttNote {
+  color: var(--muted);
+  font-size: 0.76rem;
+  margin-top: 18px;
+  padding-top: 14px;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------------------------------------------------------- discipline */
+
+.discGrid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--line-ink);
+  border: 1px solid var(--line-ink);
+}
+
+.disc {
+  background: var(--ink);
+  padding: 26px 24px;
+  transition: background 0.18s ease;
+}
+
+.disc:hover {
+  background: var(--ink-2);
+}
+
+.discTop {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.discName {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.01em;
+  font-size: 1.05rem;
+}
+
+.discDur {
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: 0.9rem;
+  letter-spacing: 0.06em;
+  color: var(--lime);
+  flex-shrink: 0;
+}
+
+.discText {
+  color: #a9a99e;
+  font-size: 0.88rem;
+  margin-bottom: 16px;
+}
+
+.discInt {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.discIntLbl {
+  font-family: var(--cond);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 0.78rem;
+  color: #a9a99e;
+}
+
+/* -------------------------------------------------------------- prezzi */
+
+.billing {
+  display: inline-flex;
+  border: 2px solid var(--ink);
+  margin-bottom: 34px;
+}
+
+.billBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--cond);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 1rem;
+  padding: 11px 24px;
+  background: transparent;
+  border: none;
+  color: var(--ink);
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.billBtnOn {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.billSave {
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  /* --signal-ink, not --signal: at 0.8rem this is small text, and the
+     brighter signal only reaches 4.04:1 on paper. */
+  color: var(--signal-ink);
+  background: var(--paper);
+  padding: 1px 7px;
+}
+
+.billBtnOn .billSave {
+  background: var(--lime);
+  color: var(--ink);
 }
 
 .plans {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
+  align-items: start;
 }
 
 .plan {
-  background: var(--card);
-  border: 1px solid var(--line);
-  padding: 28px 24px;
   position: relative;
-  transition: border-color 0.2s ease, transform 0.2s ease;
+  background: var(--white);
+  border: 2px solid var(--ink);
+  padding: 28px 24px 24px;
 }
 
-.plan:hover {
-  border-color: var(--orange);
-  transform: translateY(-3px);
-}
-
-.planFeatured {
-  border-color: var(--orange);
+.planOn {
+  background: var(--ink);
+  color: var(--paper);
+  box-shadow: 8px 8px 0 var(--signal);
 }
 
 .planBadge {
   position: absolute;
-  top: -12px;
-  left: 24px;
-  background: var(--orange);
-  color: #0d0d0d;
-  font-size: 0.7rem;
+  top: -14px;
+  left: 20px;
+  font-family: var(--cond);
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.04em;
-  padding: 4px 10px;
+  letter-spacing: 0.08em;
+  font-size: 0.82rem;
+  background: var(--lime);
+  color: var(--ink);
+  padding: 3px 12px;
 }
 
 .planName {
-  font-family: 'Anton', sans-serif;
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
   text-transform: uppercase;
-  font-size: 1.2rem;
-  margin-bottom: 10px;
+  letter-spacing: 0.02em;
+  font-size: 1.1rem;
+  margin-bottom: 12px;
 }
 
 .planPrice {
-  font-family: 'Anton', sans-serif;
-  font-size: 2.1rem;
-  color: var(--yellow);
-  margin-bottom: 10px;
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
 }
 
-.planPrice span {
-  font-family: 'Barlow', sans-serif;
-  font-size: 0.85rem;
+.planNum {
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 3rem;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.planPer {
+  font-family: var(--cond);
+  font-size: 1.05rem;
   color: var(--muted);
-  font-weight: 400;
+}
+
+.planOn .planPer,
+.planOn .planBilled,
+.planOn .planDesc {
+  color: #a9a99e;
+}
+
+.planBilled {
+  font-size: 0.78rem;
+  color: var(--muted);
+  margin-top: 4px;
 }
 
 .planDesc {
   color: var(--muted);
-  font-size: 0.85rem;
+  font-size: 0.88rem;
+  padding: 16px 0;
+  margin: 14px 0 0;
+  border-top: 1px solid var(--line);
 }
 
-@media (max-width: 760px) {
-  .plans {
-    grid-template-columns: 1fr;
-  }
+.planOn .planDesc {
+  border-color: var(--line-ink);
 }
 
-.ctaBand {
-  background: var(--orange);
-  color: #0d0d0d;
-  text-align: center;
-  padding: 60px 0;
+.planList {
+  list-style: none;
+  margin: 0;
+  padding: 0;
 }
 
-.ctaBand h2 {
-  font-family: 'Anton', sans-serif;
-  text-transform: uppercase;
-  font-size: 2.2rem;
+.planList li {
+  position: relative;
+  padding-left: 22px;
+  font-size: 0.88rem;
+  margin-bottom: 7px;
+}
+
+.planList li::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0.55em;
+  width: 11px;
+  height: 2px;
+  background: var(--signal);
+}
+
+.planOn .planList li::before {
+  background: var(--lime);
+}
+
+.plansNote {
+  color: var(--muted);
+  font-size: 0.84rem;
+  margin-top: 24px;
+}
+
+/* ---------------------------------------------------------------- team */
+
+.teamGrid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+
+.trainer {
+  background: var(--white);
+  border: 2px solid var(--ink);
+  padding: 24px 20px;
+}
+
+.trainerBadge {
+  width: 54px;
+  height: 54px;
+  display: grid;
+  place-items: center;
+  background: var(--ink);
+  color: var(--lime);
+  font-family: var(--cond);
+  font-weight: 700;
+  font-size: 1.35rem;
+  letter-spacing: 0.06em;
+  margin-bottom: 16px;
+}
+
+.trainerName {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 800;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.trainerRole {
+  color: var(--muted);
+  font-size: 0.86rem;
   margin-bottom: 10px;
 }
 
-.ctaBand .btn {
-  background: #0d0d0d;
-  color: var(--orange);
+.trainerCert {
+  font-family: var(--cond);
+  font-weight: 600;
+  font-size: 0.88rem;
+  letter-spacing: 0.03em;
+  color: var(--signal-ink);
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
 }
 
-@media (max-width: 480px) {
-  .scoreRow {
-    justify-content: space-between;
+/* -------------------------------------------------------------- cta band */
+
+.ctaBand {
+  background: var(--signal-ink);
+  color: var(--paper);
+  padding: 64px 0;
+}
+
+.ctaInner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  flex-wrap: wrap;
+}
+
+.ctaTitle {
+  font-family: 'Archivo', sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: -0.025em;
+  font-size: clamp(1.9rem, 4.4vw, 2.9rem);
+  line-height: 1;
+  margin-bottom: 12px;
+}
+
+.ctaText {
+  max-width: 46ch;
+  color: #f6ded6;
+  font-size: 0.96rem;
+}
+
+.ctaSide {
+  text-align: right;
+}
+
+.ctaSub {
+  display: block;
+  color: #f6ded6;
+  font-size: 0.82rem;
+  margin-top: 12px;
+}
+
+/* ----------------------------------------------------------- responsive */
+
+@media (max-width: 940px) {
+  .heroInner {
+    grid-template-columns: 1fr;
+    gap: 36px;
   }
 
-  .num {
-    font-size: 2rem;
+  .discGrid,
+  .teamGrid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .plans {
+    grid-template-columns: 1fr;
+    gap: 26px;
+  }
+
+  .planOn {
+    box-shadow: 6px 6px 0 var(--signal);
+  }
+
+  .factsRow {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px 16px;
+  }
+
+  .fact:nth-child(odd) {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .ctaInner {
+    gap: 26px;
+  }
+
+  .ctaSide {
+    text-align: left;
+  }
+}
+
+@media (max-width: 620px) {
+  .section {
+    padding: 58px 0;
+  }
+
+  .wrap {
+    padding: 0 20px;
+  }
+
+  .hero {
+    padding: 48px 0 56px;
+  }
+
+  .heroCtas .btn,
+  .heroCtas .btnOutline {
+    flex: 1;
+    text-align: center;
+    padding-inline: 14px;
+  }
+
+  .board {
+    padding: 18px 18px 14px;
+  }
+
+  .boardClock {
+    font-size: 2.6rem;
+  }
+
+  .boardRow {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
+
+  .discGrid,
+  .teamGrid {
+    grid-template-columns: 1fr;
+  }
+
+  .ttPanel {
+    padding: 20px 18px 16px;
+  }
+
+  /* the three-column row cannot hold: time on one line, then name, then
+     the booking control on its own row */
+  .ttItem {
+    grid-template-columns: 64px 1fr;
+    gap: 6px 16px;
+  }
+
+  .ttAction {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+    text-align: left;
+    margin-top: 6px;
+  }
+
+  .ttFree {
+    margin-bottom: 0;
+  }
+
+  .ttTime strong {
+    font-size: 1.3rem;
+  }
+
+  .ttToday {
+    margin-right: 10px;
+    font-size: 0.82rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .boardLed {
+    animation: none;
+  }
+
+  .ttPanel {
+    animation: none;
+  }
+
+  .btn,
+  .btnOutline,
+  .btnDark,
+  .ttDay,
+  .ttBook,
+  .billBtn,
+  .disc {
+    transition: none;
   }
 }

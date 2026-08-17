@@ -1,31 +1,31 @@
 import DemoShell from '../_components/DemoShell';
 import Reveal from '../_components/Reveal';
-import Counter from '../_components/Counter';
+import NowBoard from './NowBoard';
+import Timetable from './Timetable';
+import Plans from './Plans';
+import { disciplines, trainers, facts } from './content';
 import styles from './page.module.css';
 
 export const metadata = {
-  title: 'Forma Athletic Club — Ancona',
+  title: 'Forma Athletic Club — Palestra e corsi ad Ancona',
 };
 
 const navLinks = [
+  { href: '#orario', label: 'Orario' },
   { href: '#corsi', label: 'Corsi' },
-  { href: '#numeri', label: 'Il Club' },
-  { href: '#iscriviti', label: 'Iscriviti' },
+  { href: '#prezzi', label: 'Prezzi' },
+  { href: '#team', label: 'Il team' },
 ];
 
-const schedule = [
-  { corso: 'Functional HIIT', giorno: 'Lun · Mer · Ven', orario: '18:30' },
-  { corso: 'Pesistica Olimpica', giorno: 'Mar · Gio', orario: '19:00' },
-  { corso: 'Mobility & Stretching', giorno: 'Tutti i giorni', orario: '07:00' },
-  { corso: 'Boxe Fitness', giorno: 'Mar · Gio · Sab', orario: '20:00' },
-];
+const cta = { href: '#prova', label: 'Prova gratis' };
 
 export default function PalestraPage() {
   return (
     <div className={styles.pageRoot}>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link
-        href="https://fonts.googleapis.com/css2?family=Anton&family=Barlow:wght@400;500;600;700&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;800;900&family=Barlow+Condensed:wght@500;600;700&display=swap"
         rel="stylesheet"
       />
       <DemoShell
@@ -35,123 +35,156 @@ export default function PalestraPage() {
           </>
         }
         navLinks={navLinks}
-        footerText="Forma Athletic Club · Ancona — sito dimostrativo"
+        cta={cta}
+        footerText="Forma Athletic Club · Via della Baraccola 8, Ancona — sito dimostrativo"
       >
+        {/* ---------------------------------------------------------- hero */}
         <section className={styles.hero}>
-          <div className={styles.wrap}>
-            <div className={styles.eyebrow}>Ancona · zona Baraccola</div>
-            <h1>
-              Allena il tuo <span className={styles.hl}>limite.</span>
-            </h1>
-            <p>
-              Sala pesi, functional training, corsi collettivi. Un ambiente serio per chi vuole
-              risultati veri, non solo un abbonamento.
-            </p>
-            <div className={styles.heroCtas}>
-              <a href="#iscriviti" className={styles.btn}>
-                Prova gratuita
-              </a>
-              <a href="#corsi" className={styles.btnOutline}>
-                Vedi i corsi
-              </a>
+          <div className={`${styles.wrap} ${styles.heroInner}`}>
+            <div className={styles.heroCopy}>
+              <div className={styles.eyebrow}>Ancona · zona Baraccola</div>
+              <h1 className={styles.heroTitle}>
+                Diciotto corsi
+                <br />
+                a settimana.
+                <br />
+                <span className={styles.hl}>Trovane uno</span>
+                <br />
+                che ti torna.
+              </h1>
+              <p className={styles.heroText}>
+                Mille e cento metri quadri, sedici posti al massimo per corso e apertura alle 5:30.
+                Nessuna quota di iscrizione, nessun vincolo di durata.
+              </p>
+              <div className={styles.heroCtas}>
+                <a href="#prova" className={styles.btn}>
+                  Prima settimana gratis
+                </a>
+                <a href="#orario" className={styles.btnOutline}>
+                  Guarda l’orario
+                </a>
+              </div>
             </div>
+
+            <NowBoard />
           </div>
         </section>
 
-        <div className={styles.scoreboard} id="numeri">
-          <div className={styles.wrap}>
-            <div className={styles.scoreRow}>
-              <div>
-                <Counter target={450} suffix="+" className={styles.num} />
-                <div className={styles.lbl}>Iscritti attivi</div>
+        {/* --------------------------------------------------------- facts */}
+        <div className={styles.facts}>
+          <div className={`${styles.wrap} ${styles.factsRow}`}>
+            {facts.map((f) => (
+              <div key={f.k} className={styles.fact}>
+                <span className={styles.factNum}>{f.k}</span>
+                <span className={styles.factLbl}>{f.v}</span>
               </div>
-              <div>
-                <Counter target={18} className={styles.num} />
-                <div className={styles.lbl}>Corsi a settimana</div>
-              </div>
-              <div>
-                <Counter target={6} className={styles.num} />
-                <div className={styles.lbl}>Personal trainer</div>
-              </div>
-              <div>
-                <div className={styles.num}>05:30</div>
-                <div className={styles.lbl}>Apertura mattutina</div>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
 
-        <section className={styles.section} id="corsi">
+        {/* -------------------------------------------------------- orario */}
+        <section className={styles.section} id="orario">
           <div className={styles.wrap}>
             <div className={styles.sectionHead}>
-              <div className={styles.eyebrow}>Questa settimana</div>
-              <h2>Orario corsi</h2>
+              <div className={styles.eyebrow}>Orario</div>
+              <h2 className={styles.sectionTitle}>La settimana, per intero</h2>
+              <p className={styles.sectionLead}>
+                Non un estratto: tutti i corsi di tutti i giorni, con chi li tiene e quanti posti
+                restano.
+              </p>
             </div>
-            <table className={styles.schedule}>
-              <thead>
-                <tr>
-                  <th>Corso</th>
-                  <th>Giorno</th>
-                  <th>Orario</th>
-                </tr>
-              </thead>
-              <tbody>
-                {schedule.map((row, i) => (
-                  <Reveal key={row.corso} as="tr" delay={i * 60}>
-                    <td>{row.corso}</td>
-                    <td>{row.giorno}</td>
-                    <td className={styles.time}>{row.orario}</td>
-                  </Reveal>
-                ))}
-              </tbody>
-            </table>
+            <Timetable />
           </div>
         </section>
 
-        <section className={styles.section} id="prezzi" style={{ borderBottom: 'none' }}>
+        {/* --------------------------------------------------------- corsi */}
+        <section className={`${styles.section} ${styles.sectionInk}`} id="corsi">
           <div className={styles.wrap}>
             <div className={styles.sectionHead}>
-              <div className={styles.eyebrow}>Abbonamenti</div>
-              <h2>Scegli il tuo piano</h2>
+              <div className={styles.eyebrow}>Corsi</div>
+              <h2 className={styles.sectionTitle}>Sei discipline, un solo abbonamento</h2>
             </div>
-            <div className={styles.plans}>
-              <Reveal className={styles.plan}>
-                <div className={styles.planName}>Base</div>
-                <div className={styles.planPrice}>
-                  € 35<span>/mese</span>
-                </div>
-                <div className={styles.planDesc}>Sala pesi e cardio, accesso full-time</div>
-              </Reveal>
-              <Reveal delay={80} className={`${styles.plan} ${styles.planFeatured}`}>
-                <div className={styles.planBadge}>Più scelto</div>
-                <div className={styles.planName}>Corsi</div>
-                <div className={styles.planPrice}>
-                  € 49<span>/mese</span>
-                </div>
-                <div className={styles.planDesc}>Sala pesi + tutti i corsi collettivi</div>
-              </Reveal>
-              <Reveal delay={160} className={styles.plan}>
-                <div className={styles.planName}>Personal</div>
-                <div className={styles.planPrice}>
-                  € 89<span>/mese</span>
-                </div>
-                <div className={styles.planDesc}>Tutto incluso + 2 sedute PT al mese</div>
-              </Reveal>
+            <div className={styles.discGrid}>
+              {disciplines.map((d, i) => (
+                <Reveal key={d.name} delay={i * 60} className={styles.disc}>
+                  <div className={styles.discTop}>
+                    <h3 className={styles.discName}>{d.name}</h3>
+                    <span className={styles.discDur}>{d.dur}</span>
+                  </div>
+                  <p className={styles.discText}>{d.text}</p>
+                  <div className={styles.discInt}>
+                    <span className={styles.discIntLbl}>Intensità</span>
+                    <span className={styles.ttBars} aria-label={`Intensità ${d.intensity} su 5`}>
+                      {[1, 2, 3, 4, 5].map((n) => (
+                        <span
+                          key={n}
+                          className={n <= d.intensity ? styles.intSegOn : styles.intSeg}
+                        ></span>
+                      ))}
+                    </span>
+                  </div>
+                </Reveal>
+              ))}
             </div>
           </div>
         </section>
 
-        <div className={styles.ctaBand} id="iscriviti">
+        {/* -------------------------------------------------------- prezzi */}
+        <section className={styles.section} id="prezzi">
           <div className={styles.wrap}>
-            <h2>Prima settimana gratis</h2>
-            <p style={{ marginBottom: '24px' }}>
-              Vieni a provare la sala e un corso a scelta, senza impegno.
-            </p>
-            <a href="#" className={styles.btn}>
-              Prenota la prova
-            </a>
+            <div className={styles.sectionHead}>
+              <div className={styles.eyebrow}>Prezzi</div>
+              <h2 className={styles.sectionTitle}>Tre piani, nessuna sorpresa</h2>
+            </div>
+            <Plans />
           </div>
-        </div>
+        </section>
+
+        {/* ----------------------------------------------------------- team */}
+        <section className={`${styles.section} ${styles.sectionSoft}`} id="team">
+          <div className={styles.wrap}>
+            <div className={styles.sectionHead}>
+              <div className={styles.eyebrow}>Il team</div>
+              <h2 className={styles.sectionTitle}>Chi ti segue davvero</h2>
+              <p className={styles.sectionLead}>
+                Quattro tecnici, tutti con un titolo verificabile. In sala c’è sempre qualcuno.
+              </p>
+            </div>
+            <div className={styles.teamGrid}>
+              {trainers.map((t, i) => (
+                <Reveal key={t.name} delay={i * 60} className={styles.trainer}>
+                  <div className={styles.trainerBadge} aria-hidden="true">
+                    {t.initials}
+                  </div>
+                  <h3 className={styles.trainerName}>{t.name}</h3>
+                  <p className={styles.trainerRole}>{t.role}</p>
+                  <p className={styles.trainerCert}>{t.cert}</p>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* ---------------------------------------------------------- prova */}
+        <section className={styles.ctaBand} id="prova">
+          <div className={`${styles.wrap} ${styles.ctaInner}`}>
+            <div>
+              <h2 className={styles.ctaTitle}>Prima settimana gratis</h2>
+              <p className={styles.ctaText}>
+                Sala, corsi e una chiacchierata con un tecnico. Senza carta di credito e senza
+                qualcuno che ti richiama per tre mesi.
+              </p>
+            </div>
+            <div className={styles.ctaSide}>
+              <a href="tel:0710000000" className={styles.btnDark}>
+                071 000 0000
+              </a>
+              <span className={styles.ctaSub}>
+                Oppure passa e basta: Via della Baraccola 8, Ancona
+              </span>
+            </div>
+          </div>
+        </section>
       </DemoShell>
     </div>
   );
