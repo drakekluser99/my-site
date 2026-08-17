@@ -971,7 +971,7 @@ function HomeContent() {
                       {t('sc3-title')}
                     </h3>
                     <p>
-                      AURA — landing page per una carta di credito metallica premium, con bottoni glassmorphism.
+                      AURA — carta metallica premium: scelta della finitura, scheda tecnica e calcolo del cashback.
                     </p>
                     <span className={styles['showcase-open']}>
                       {t('showcase-open')}

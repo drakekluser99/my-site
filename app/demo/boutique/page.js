@@ -1,164 +1,211 @@
 import DemoShell from '../_components/DemoShell';
 import Reveal from '../_components/Reveal';
+import CardStudio from './CardStudio';
+import CashbackCalculator from './CashbackCalculator';
+import { specs, comparison, steps, faqs } from './content';
 import styles from './page.module.css';
 
 export const metadata = {
-  title: 'AURA — La carta che non passa inosservata',
+  title: 'AURA — Una carta fatta come si fanno gli oggetti',
 };
 
 const navLinks = [
   { href: '#carta', label: 'La carta' },
-  { href: '#vantaggi', label: 'Vantaggi' },
-  { href: '#come-funziona', label: 'Come funziona' },
+  { href: '#scheda', label: 'Scheda tecnica' },
+  { href: '#numeri', label: 'Cashback' },
+  { href: '#confronto', label: 'Confronto' },
 ];
 
-const cta = { href: '#richiedi', label: 'Richiedi la carta' };
+const cta = { href: '#richiedi', label: 'Richiedi AURA' };
 
 export default function BoutiquePage() {
   return (
     <div className={styles.pageRoot}>
       <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
       <link
-        href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&family=Inter:wght@400;500;600&display=swap"
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&display=swap"
         rel="stylesheet"
       />
       <DemoShell logo="AURA" navLinks={navLinks} cta={cta} footerText={null}>
+        {/* ---------------------------------------------------------- hero */}
         <section className={styles.hero} id="carta">
-          <div className={styles.heroGlow}></div>
+          <div className={styles.heroGlow} aria-hidden="true"></div>
           <div className={`${styles.wrap} ${styles.heroInner}`}>
-            <div className={styles.eyebrow}>Metallo, non plastica</div>
-            <h1>
-              La carta che <span className={styles.grad}>non passa inosservata.</span>
+            <div className={styles.eyebrow}>Acciaio 316L · 18 grammi</div>
+            <h1 className={styles.heroTitle}>
+              Una carta fatta come <em>si fanno gli oggetti.</em>
             </h1>
-            <p>
-              Nessuna commissione nascosta, cashback reale, un pezzo di metallo da 18 grammi che si
-              sente in tasca prima ancora di vederlo.
+            <p className={styles.heroText}>
+              Non stampata: fresata, spazzolata e incisa a laser. Zero commissioni sul cambio, 3% di
+              cashback accreditato subito, e un peso che si sente in tasca prima ancora di vederla.
             </p>
-            <div className={styles.heroCtas}>
-              <a href="#richiedi" className={styles.glassBtn}>
-                Richiedi AURA
-              </a>
-              <a href="#vantaggi" className={`${styles.glassBtn} ${styles.glassBtnGhost}`}>
-                Scopri i vantaggi
-              </a>
-            </div>
           </div>
-          <div className={styles.cardStage}>
-            <div className={styles.cardShadow}></div>
-            <div className={styles.cardVisual}>
-              <div className={styles.cardChip}></div>
-              <div className={styles.cardBrand}>AURA</div>
-              <div className={styles.cardNumber}>•••• •••• •••• 4471</div>
-              <div className={styles.cardName}>Y. Copparini</div>
-            </div>
-          </div>
+
+          <CardStudio />
         </section>
 
+        {/* --------------------------------------------------------- trust */}
         <div className={styles.trust}>
-          <div className={styles.wrap}>
-            <div className={styles.trustRow}>
-              <div>
-                <div className={styles.num}>0%</div>
-                <div className={styles.lbl}>Commissioni estero</div>
-              </div>
-              <div>
-                <div className={styles.num}>3%</div>
-                <div className={styles.lbl}>Cashback su ogni spesa</div>
-              </div>
-              <div>
-                <div className={styles.num}>18g</div>
-                <div className={styles.lbl}>Metallo pieno, non placcato</div>
-              </div>
-              <div>
-                <div className={styles.num}>24h</div>
-                <div className={styles.lbl}>Approvazione media</div>
-              </div>
+          <div className={`${styles.wrap} ${styles.trustRow}`}>
+            <div className={styles.trustItem}>
+              <span className={styles.trustNum}>0%</span>
+              <span className={styles.trustLbl}>commissioni sul cambio</span>
+            </div>
+            <div className={styles.trustItem}>
+              <span className={styles.trustNum}>3%</span>
+              <span className={styles.trustLbl}>cashback su ogni spesa</span>
+            </div>
+            <div className={styles.trustItem}>
+              <span className={styles.trustNum}>0 €</span>
+              <span className={styles.trustLbl}>canone annuo</span>
+            </div>
+            <div className={styles.trustItem}>
+              <span className={styles.trustNum}>24h</span>
+              <span className={styles.trustLbl}>approvazione media</span>
             </div>
           </div>
         </div>
 
-        <section className={styles.section} id="vantaggi">
+        {/* -------------------------------------------------- scheda tecnica */}
+        <section className={styles.section} id="scheda">
+          <div className={`${styles.wrap} ${styles.specLayout}`}>
+            <Reveal className={styles.specIntro}>
+              <div className={styles.eyebrow}>Scheda tecnica</div>
+              <h2 className={styles.sectionTitle}>I numeri che di solito non ti dicono</h2>
+              <p className={styles.sectionLead}>
+                Le carte «premium» in metallo sono quasi sempre plastica con una placcatura sottile.
+                Qui sotto c’è tutto quello che serve per verificare che questa non lo sia.
+              </p>
+              <div className={styles.specStamp} aria-hidden="true">
+                <span>316L</span>
+                <span>18 g</span>
+              </div>
+            </Reveal>
+
+            <Reveal delay={90} className={styles.specTableWrap}>
+              <dl className={styles.specTable}>
+                {specs.map((s) => (
+                  <div key={s.k} className={styles.specRow}>
+                    <dt>{s.k}</dt>
+                    <dd>{s.v}</dd>
+                  </div>
+                ))}
+              </dl>
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ------------------------------------------------------- cashback */}
+        <section className={`${styles.section} ${styles.sectionPanel}`} id="numeri">
           <div className={styles.wrap}>
             <div className={styles.sectionHead}>
-              <div className={styles.eyebrow}>Vantaggi</div>
-              <h2>Pensata per chi non vuole compromessi</h2>
-              <p>
-                Ogni dettaglio della carta AURA è stato ripensato: dal materiale ai vantaggi, senza
-                le trappole delle carte tradizionali.
+              <div className={styles.eyebrow}>Cashback</div>
+              <h2 className={styles.sectionTitle}>Quanto ti torna indietro</h2>
+              <p className={styles.sectionLead}>
+                Il 3% arriva sul conto il giorno dopo la spesa. Nessun punto da convertire, nessuna
+                soglia da raggiungere, nessuna scadenza.
               </p>
             </div>
-            <div className={styles.featureGrid}>
-              <Reveal className={styles.featureCard}>
-                <div className={styles.ico}></div>
-                <h3>Cashback reale</h3>
-                <p>3% su ogni acquisto, accreditato subito — nessun punto da convertire, nessuna scadenza.</p>
-              </Reveal>
-              <Reveal delay={80} className={styles.featureCard}>
-                <div className={styles.ico} style={{ background: 'linear-gradient(135deg,var(--violet),var(--pink))' }}></div>
-                <h3>Zero commissioni estero</h3>
-                <p>Paghi in qualsiasi valuta al tasso reale, senza sovrapprezzi nascosti in fattura.</p>
-              </Reveal>
-              <Reveal delay={160} className={styles.featureCard}>
-                <div className={styles.ico} style={{ background: 'linear-gradient(135deg,var(--pink),var(--ice))' }}></div>
-                <h3>Assicurazione viaggio</h3>
-                <p>Copertura medica e bagaglio inclusa su ogni viaggio pagato con la carta.</p>
-              </Reveal>
+            <Reveal>
+              <CashbackCalculator />
+            </Reveal>
+          </div>
+        </section>
+
+        {/* ------------------------------------------------------- confronto */}
+        <section className={styles.section} id="confronto">
+          <div className={styles.wrap}>
+            <div className={styles.sectionHead}>
+              <div className={styles.eyebrow}>Confronto</div>
+              <h2 className={styles.sectionTitle}>AURA e una carta qualsiasi</h2>
+            </div>
+            <div className={styles.compareWrap}>
+              <table className={styles.compare}>
+                <thead>
+                  <tr>
+                    <th scope="col">
+                      <span className={styles.srOnly}>Caratteristica</span>
+                    </th>
+                    <th scope="col" className={styles.compareUs}>
+                      AURA
+                    </th>
+                    <th scope="col">Carta tradizionale</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {comparison.map((r) => (
+                    <tr key={r.feature}>
+                      <th scope="row">{r.feature}</th>
+                      <td className={styles.compareUs}>{r.aura}</td>
+                      <td className={styles.compareThem}>{r.other}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
             </div>
           </div>
         </section>
 
-        <section className={styles.section} id="come-funziona" style={{ borderBottom: 'none' }}>
+        {/* ---------------------------------------------------- come funziona */}
+        <section className={`${styles.section} ${styles.sectionPanel}`}>
           <div className={styles.wrap}>
             <div className={styles.sectionHead}>
               <div className={styles.eyebrow}>Come funziona</div>
-              <h2>Tre passaggi, non trenta</h2>
+              <h2 className={styles.sectionTitle}>Tre passaggi, non trenta</h2>
             </div>
             <div className={styles.steps}>
-              <div className={styles.step}>
-                <div className={styles.n}></div>
-                <div>
-                  <h3>Richiedi online</h3>
-                  <p>Due minuti, nessuna filiale, nessuna coda.</p>
-                </div>
-              </div>
-              <div className={styles.step}>
-                <div className={styles.n}></div>
-                <div>
-                  <h3>Verifica istantanea</h3>
-                  <p>Approvazione in media entro 24 ore lavorative.</p>
-                </div>
-              </div>
-              <div className={styles.step}>
-                <div className={styles.n}></div>
-                <div>
-                  <h3>La carta arriva a casa</h3>
-                  <p>Spedizione tracciata, pronta all’uso in pochi giorni.</p>
-                </div>
-              </div>
+              {steps.map((s, i) => (
+                <Reveal key={s.n} delay={i * 80} className={styles.step}>
+                  <div className={styles.stepNum}>{s.n}</div>
+                  <h3 className={styles.stepTitle}>{s.title}</h3>
+                  <p className={styles.stepText}>{s.text}</p>
+                </Reveal>
+              ))}
             </div>
           </div>
         </section>
 
+        {/* ------------------------------------------------------------ faq */}
+        <section className={styles.section}>
+          <div className={styles.wrap}>
+            <div className={styles.sectionHead}>
+              <div className={styles.eyebrow}>Domande</div>
+              <h2 className={styles.sectionTitle}>Quelle che ci fanno davvero</h2>
+            </div>
+            <div className={styles.faqGrid}>
+              {faqs.map((f, i) => (
+                <Reveal key={f.q} delay={i * 70} className={styles.faq}>
+                  <h3 className={styles.faqQ}>{f.q}</h3>
+                  <p className={styles.faqA}>{f.a}</p>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* -------------------------------------------------------- cta band */}
         <section className={styles.ctaBand} id="richiedi">
-          <div className={styles.heroGlow} style={{ top: '-260px' }}></div>
-          <div className={styles.wrap} style={{ position: 'relative', zIndex: 1 }}>
-            <h2>Pronto a sentirne il peso?</h2>
-            <p>Nessun costo di attivazione. Nessun vincolo.</p>
-            <a href="#" className={styles.glassBtn}>
-              Richiedi AURA ora
-            </a>
+          <div className={styles.ctaGlow} aria-hidden="true"></div>
+          <div className={`${styles.wrap} ${styles.ctaInner}`}>
+            <h2 className={styles.ctaTitle}>Pronto a sentirne il peso?</h2>
+            <p className={styles.ctaText}>Nessun costo di attivazione, nessun vincolo.</p>
+            <span className={styles.ctaFake}>Richiedi AURA</span>
+            <p className={styles.ctaDisclaimer}>
+              Il pulsante non porta da nessuna parte: AURA non esiste.
+            </p>
           </div>
         </section>
 
         <footer className={styles.footer}>
           <div className={styles.wrap}>
-            <div className={`${styles.logo} ${styles.manrope}`} style={{ fontWeight: 800, textAlign: 'center' }}>
-              AURA
-            </div>
+            <div className={styles.footLogo}>AURA</div>
             <p className={styles.finePrint}>
-              AURA è un prodotto dimostrativo creato a scopo di portfolio — non è un istituto
-              finanziario reale e non è possibile richiedere alcuna carta. Eventuali riferimenti a
-              tassi, commissioni o condizioni sono puramente illustrativi.
+              <strong>Prodotto dimostrativo.</strong> AURA è un marchio inventato a scopo di
+              portfolio: non è un istituto finanziario, non è autorizzata da alcuna autorità di
+              vigilanza e non è possibile richiedere né ottenere alcuna carta. Materiali, tassi,
+              commissioni, cashback e condizioni riportati in questa pagina sono interamente fittizi
+              e servono solo a mostrare come sarebbero presentati in un sito reale.
             </p>
           </div>
         </footer>
