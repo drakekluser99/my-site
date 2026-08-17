@@ -1003,7 +1003,7 @@ function HomeContent() {
                       {t('sc5-title')}
                     </h3>
                     <p>
-                      Card annunci in stile vero, con metratura e prezzo.
+                      Agenzia — annunci filtrabili con planimetrie, dati di mercato per zona e stima online.
                     </p>
                     <span className={styles['showcase-open']}>
                       {t('showcase-open')}
