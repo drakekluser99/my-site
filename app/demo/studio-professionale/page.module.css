@@ -1,0 +1,289 @@
+.pageRoot {
+  --bg: #f5f6f4;
+  --navy: #10233a;
+  --navy-2: #16314f;
+  --brass: #9c7a3c;
+  --text: #1b2733;
+  --muted: #5c6b7a;
+  --line: #dadfe0;
+
+  /* shared shell contract */
+  --accent: var(--brass);
+  --bg-panel: var(--navy);
+}
+
+.pageRoot {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Libre Franklin', sans-serif;
+  line-height: 1.65;
+  overflow-x: hidden;
+}
+
+.pageRoot :global(a) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.wrap {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+.amp {
+  color: var(--brass);
+}
+
+.hero {
+  background: var(--navy);
+  color: #fff;
+  padding: 110px 0 100px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 45% 60% at 88% 15%, rgba(156, 122, 60, 0.3), transparent 65%),
+    linear-gradient(180deg, var(--navy) 0%, var(--navy-2) 100%);
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(100deg, rgba(199, 208, 217, 0.03) 0 1px, transparent 1px 26px);
+}
+
+.hero .wrap {
+  position: relative;
+  z-index: 1;
+}
+
+.eyebrow {
+  color: var(--brass);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  font-size: 0.78rem;
+  margin-bottom: 20px;
+}
+
+.hero h1 {
+  font-family: 'Source Serif 4', serif;
+  font-weight: 600;
+  font-size: clamp(2.2rem, 5vw, 3.4rem);
+  line-height: 1.15;
+  max-width: 680px;
+  margin-bottom: 22px;
+}
+
+.hero p {
+  color: #b7c3ce;
+  max-width: 520px;
+  margin-bottom: 36px;
+  font-size: 1.02rem;
+}
+
+.heroCtas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.btn {
+  display: inline-block;
+  background: var(--brass);
+  color: var(--navy);
+  padding: 14px 30px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  border-radius: 2px;
+}
+
+.btnOutline {
+  display: inline-block;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  color: #fff;
+  padding: 14px 30px;
+  font-size: 0.9rem;
+  border-radius: 2px;
+}
+
+.credentials {
+  background: var(--navy-2);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.credRow {
+  display: flex;
+  justify-content: space-between;
+  padding: 22px 0;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.item {
+  color: #c7d0d9;
+  font-size: 0.85rem;
+}
+
+.item b {
+  color: #fff;
+  display: block;
+  font-family: 'Source Serif 4', serif;
+  font-size: 1.3rem;
+  margin-bottom: 2px;
+}
+
+.section {
+  padding: 76px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.sectionHead {
+  margin-bottom: 44px;
+}
+
+.sectionHead .eyebrow {
+  margin-bottom: 10px;
+}
+
+.sectionHead h2 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 1.9rem;
+  font-weight: 600;
+}
+
+.practiceList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1px;
+  background: var(--line);
+  border: 1px solid var(--line);
+}
+
+.practice {
+  background: #fff;
+  padding: 28px;
+  border-top: 2px solid transparent;
+  transition: border-color 0.2s ease, transform 0.2s ease;
+}
+
+.practice:hover {
+  border-top-color: var(--brass);
+  transform: translateY(-2px);
+}
+
+.num {
+  font-family: 'Source Serif 4', serif;
+  color: var(--brass);
+  font-size: 0.85rem;
+  margin-bottom: 10px;
+}
+
+.practice h3 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 1.15rem;
+  margin-bottom: 8px;
+}
+
+.practice p {
+  color: var(--muted);
+  font-size: 0.88rem;
+}
+
+@media (max-width: 640px) {
+  .practiceList {
+    grid-template-columns: 1fr;
+  }
+}
+
+.teamList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.person {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+  padding: 22px;
+  background: #fff;
+  border: 1px solid var(--line);
+}
+
+.personInitial {
+  flex-shrink: 0;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: var(--brass);
+  font-family: 'Source Serif 4', serif;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.95rem;
+}
+
+.person h3 {
+  font-family: 'Source Serif 4', serif;
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.personRole {
+  color: var(--muted);
+  font-size: 0.85rem;
+  margin-bottom: 2px;
+}
+
+.personYears {
+  color: var(--brass);
+  font-size: 0.76rem;
+  letter-spacing: 0.03em;
+}
+
+@media (max-width: 760px) {
+  .teamList {
+    grid-template-columns: 1fr;
+  }
+}
+
+.contactBand {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.k {
+  font-family: 'Source Serif 4', serif;
+  font-size: 1.5rem;
+  margin-bottom: 6px;
+}
+
+.k a:hover {
+  color: var(--brass);
+}
+
+.v {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+@media (max-width: 480px) {
+  .hero h1 {
+    font-size: 2rem;
+  }
+
+  .practice {
+    padding: 22px;
+  }
+}
